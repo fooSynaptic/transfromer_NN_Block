@@ -12,14 +12,16 @@ with codecs.open('./dataset/train.txt', 'r', encoding = 'utf-8') as f:
 
 zh = ''
 en = ''
+
 for pair in vocabset:
 	try:
 		z, e = pair.strip().split('\t')
-		zh += z
-		en += e
+		zh += z + ' '
+		en += e + ' '
 	except:
 		zh += '<eos>'
 		en += '<eos>'
+
 
 zh_sent = zh.split('<eos>')
 en_sent = en.split('<eos>')
@@ -49,10 +51,13 @@ if 'train.tags.zh-en.zh' not in files:
 
 
 
+
+
+
 def main():
 	assert len(zh_sent) == len(en_sent)
-	print(zh_sent)
-	print(en_sent)
+	#print(zh_sent)
+	#print(en_sent)
 
 
 
