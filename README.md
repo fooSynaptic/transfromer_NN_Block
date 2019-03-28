@@ -3,7 +3,7 @@ transformer for tagging
 
 transformer implemention for Chinese words segment.
 
-see the source transformer model: https://github.com/Kyubyong/transformer
+
 
 
 # train
@@ -47,4 +47,4 @@ For the labeling task the BLEU was implemented to evalate the model. Our model a
 # Ref
 
 -  https://github.com/Kyubyong/transformer
--  (Attention Is All You Need)![https://arxiv.org/abs/1706.03762]
+-  ![Attention Is All You Need](https://arxiv.org/abs/1706.03762). Most of the modules comes from this rep.
