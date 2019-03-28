@@ -11,7 +11,9 @@ import tensorflow as tf
 import numpy as np
 import codecs
 import os
-import regex
+
+#import regex
+import re
 from collections import Counter
 
 def make_vocab(fpath, fname):
@@ -23,11 +25,8 @@ def make_vocab(fpath, fname):
     
     Writes vocabulary line by line to `preprocessed/fname`
     '''  
-    #text = codecs.open(fpath, 'r', 'utf-8').read()
-    text = codecs.open(fpath, 'r', 'utf-8')
-    #text = regex.sub("[^\s\p{Latin}']", "", text)
-    text = text.readlines()
-    text = ''.join(text)
+    text = codecs.open(fpath, 'r', 'utf-8').read()
+    text = re.sub("[^\s\p{Latin}']", "", text)
     words = text.split()
     word2cnt = Counter(words)
     if not os.path.exists('preprocessed'): os.mkdir('preprocessed')
@@ -37,6 +36,6 @@ def make_vocab(fpath, fname):
             fout.write(u"{}\t{}\n".format(word, cnt))
 
 if __name__ == '__main__':
-    make_vocab(hp.source_train, "zh.vocab.tsv")
+    make_vocab(hp.source_train, "de.vocab.tsv")
     make_vocab(hp.target_train, "en.vocab.tsv")
     print("Done")

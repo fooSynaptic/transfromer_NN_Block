@@ -9,7 +9,7 @@ from __future__ import print_function
 import tensorflow as tf
 
 from hyperparams import Hyperparams as hp
-from data_load import get_batch_data, load_zh_vocab, load_en_vocab
+from data_load import get_batch_data, load_de_vocab, load_en_vocab
 from modules import *
 import os, codecs
 from tqdm import tqdm
@@ -28,7 +28,7 @@ class Graph():
             self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1])*2, self.y[:, :-1]), -1) # 2:<S>
 
             # Load vocabulary    
-            de2idx, idx2de = load_zh_vocab()
+            de2idx, idx2de = load_de_vocab()
             en2idx, idx2en = load_en_vocab()
             
             # Encoder
@@ -41,7 +41,6 @@ class Graph():
                                       scope="enc_embed")
                 
                 ## Positional Encoding
-
                 if hp.sinusoid:
                     self.enc += positional_encoding(self.x,
                                       num_units=hp.hidden_units, 
@@ -120,7 +119,6 @@ class Graph():
                                                         causality=True, 
                                                         scope="self_attention")
                         
-                        
                         ## Multihead Attention ( vanilla attention)
                         self.dec = multihead_attention(queries=self.dec, 
                                                         keys=self.enc, 
@@ -158,7 +156,7 @@ class Graph():
 
 if __name__ == '__main__':                
     # Load vocabulary    
-    de2idx, idx2de = load_zh_vocab()
+    de2idx, idx2de = load_de_vocab()
     en2idx, idx2en = load_en_vocab()
     
     # Construct graph

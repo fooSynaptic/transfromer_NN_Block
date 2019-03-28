@@ -1,0 +1,1921 @@
+- source: a tanin n tit ini i in
+- expected: a a  tnt in inia p at
+- got: a a itat a i a
+
+- source: i a in i a nan
+- expected: a a a an na
+- got: t t a t a
+
+- source: n a i a t a i itt
+- expected: n  a ti  a  i
+- got: n t t a t ' in t
+
+- source: in iitnin a ni inn antit a tn atintn
+- expected: aat t an anit   it int
+- got: inti ia iit t ni at int patint
+
+- source: a i i in at i i
+- expected: i  tt   an
+- got: nt in t nti an a
+
+- source: i a  nit init
+- expected: t  in't an it
+- got: t n't tin ant t t
+
+- source: it an
+- expected: p a
+- got: i int
+
+- source: a it  a n inn ant nnnn
+- expected: at' at pit a an a nt
+- got: at' a a at a t t nt
+
+- source: t  nn i in n n i
+- expected: ai  an i ' in
+- got: a pp a t a t
+
+- source: t in paa n  n
+- expected: a ant t   tnttin
+- got: a t ta a
+
+- source: a  i a nai
+- expected: a 'a' a
+- got: tin a nia
+
+- source: i it nit in inn a in atn
+- expected: i i nt  pinin  a t at
+- got: t' nt t at nit in n
+
+- source: t nit pani nn i   i
+- expected: p  a   n't pani
+- got: t t nt pani a in t nin
+
+- source: i pp i  t n a i
+- expected: i  i in t  in  tin
+- got: tat i p t a n i ti
+
+- source: a n Lt in n n nit  n
+- expected: t ti in't at tnttin a ain
+- got: n pp a a nt t ai
+
+- source: i  t  i itin  ann
+- expected: pap ta at t anin tita  at
+- got: t a t a t itat tat
+
+- source: inat nnnn i  in nt tt
+- expected: a a t  an tn an
+- got: intit a ti n pt
+
+- source: a tit
+- expected: t' t
+- got: t' t
+
+- source: tit a nit
+- expected: n't tat t
+- got: t i nt t
+
+- source: a nit
+- expected: tin appn
+- got: n't tin
+
+- source: in i Lt in n n i
+- expected: a t tnttin
+- got: n t a t pp
+
+- source: at a nit
+- expected: nt  tat
+- got: n't n a
+
+- source: i tiniiii tt nit i inn tn ptan  an
+- expected: ptinnia ii ii in't in a  pt a
+- got: in't at t a anin at a pt tt
+
+- source: i it in it i it i  aan ann
+- expected: ' a t at  tat an
+- got: ' n ti a p a t ti
+
+- source: it i it n a
+- expected: t' a t at a an na a
+- got: i i a i i an i
+
+- source: i i n nn i  a
+- expected: ' in t ta a   i  a an
+- got: t t pa t
+
+- source: a it atinatin
+- expected: at' patinatin
+- got: i i t t p
+
+- source: at  a n i itt a a a a
+- expected: t a t p  an a it nt
+- got: t n t a an t a tin
+
+- source: itn at i i an ippat it tt
+- expected: n  t a tat t an ti i at
+- got: i a i i n a a inin
+
+- source: tit i t   it nttit  a nit tit
+- expected: a  tnttin a n  np
+- got: n i t nin i n it ai
+
+- source: a it in t  itn i natinn
+- expected: t' nt atin t' t in   inatin pa
+- got: i i a i inatin t
+
+- source: a a a it a
+- expected: at appn t a
+- got: a t a a
+
+- source: i a an a i t in it  n
+- expected: at a ti p  t a  t
+- got: a a it a ant t a
+
+- source: tt n a pt it i ntanin  n
+- expected: i a at ' a pia nt pann
+- got: a at tat an t pt
+
+- source: it  ina inn  n
+- expected: a  a t p
+- got: t' a t a
+
+- source: it  ina i a a i   at
+- expected: t' a ip a at  an t a t
+- got: t t i t a a
+
+- source: ntit a tt   Ln
+- expected: ' iin  i it n
+- got: t n nt i
+
+- source: in an
+- expected: an
+- got: an
+
+- source: i a i at i   nn  apt in n
+- expected: t  n at i t   n na at a
+- got: t i ti i a tn nn apt
+
+- source: a i tt i a an
+- expected: tat t iain at ti   i
+- got: i t at a
+
+- source: it i   i n a n
+- expected: it ti t ti na a n n
+- got: t' ti t in
+
+- source: n n in i n aa  ii
+- expected: t  t an ti ain ti t n
+- got: n tin ' pa p
+
+- source: tt n i i a in n  an
+- expected: t n  n't a t  at it
+- got: at t ta at tin
+
+- source: i a i in ninntniain
+- expected: at  t  i an nin ant ittin
+- got: t a t a at <UNK> p
+
+- source: i  in  nt an
+- expected: at   a t  i
+- got: a nt
+
+- source: in an
+- expected: an
+- got: an
+
+- source: in tt at in
+- expected: t  ti t ai
+- got: a in ' t i
+
+- source: in tn tn a i nni i i
+- expected: pant ant  t  an nin i t
+- got: n t t i t nin
+
+- source: it nit iti  i n  a  nit
+- expected: t i nt iptant i  i t   nt
+- got: t' nt iptant t n't ti
+
+- source: in a a  in ini pnnin  n
+- expected: t  a a t  a in pa in
+- got: n a t n nit a t in i
+
+- source: i ann tn in  nit
+- expected: t n at i t ia
+- got: tn t t an t
+
+- source: i ann atn nit a  i nt ait a
+- expected: at i  a i
+- got: an't ait t n t at i
+
+- source: in a  a ni a n
+- expected: a  n  t
+- got: ' at t a p a
+
+- source: a it  nt
+- expected: t tat'  nai
+- got: at' nai
+
+- source: in a  i ta  n  t
+- expected: an t ta  in
+- got: a a a t t
+
+- source: nt i i n
+- expected: tn t
+- got: an
+
+- source: ati  i in ina tn in
+- expected: ann in ina
+- got: ata t t a ip
+
+- source: i t  ant  Ln  inin an
+- expected: at i at in paant i
+- got: t an an n nti
+
+- source: i i it intant a ta
+- expected: i i inttin t tan
+- got: i n i a inttin n
+
+- source: a it in a  in an a
+- expected: at' a tpi  a int a
+- got: i i a a an an
+
+- source: at i a it  an n i  a a
+- expected: n  ai at'  int an tt tan
+- got: ai an at i t ti
+
+- source: i t i ini
+- expected: t  an init
+- got: t init
+
+- source: in at at a ta  i pni iti a
+- expected: ap ata ai ' i
+- got: n at a a at pna
+
+- source: a in Ln it inti nit
+- expected: paati ain ata i ntin n
+- got: i n i n it in't a
+
+- source: n  aain t it  in tanaan
+- expected: t' a tana pati in t aai
+- got: n t' ant <UNK>
+
+- source: ann i i i  iiti  n
+- expected: tat ain  in pai
+- got: t tat n t a ti an pa
+
+- source: at i inin tt ti tt n tt
+- expected: i in in ita an n t
+- got: an i t an nt i it t
+
+- source: i a i i ni  ina  at n
+- expected: n  a n  n  p aain
+- got: n a t n a i at t
+
+- source: a in patt a ann in  n
+- expected: n a att a an  tat
+- got: a a i pnt a n ain in
+
+- source: n  i it nn in
+- expected: a   aa it
+- got: n ti i p
+
+- source: in an
+- expected: an
+- got: an
+
+- source: in an
+- expected: an
+- got: an
+
+- source: in an
+- expected: an
+- got: an
+
+- source: n ann tat i
+- expected: n tn  i it
+- got: n tn it
+
+- source: in
+- expected: t '
+- got: 
+
+- source: iit i i ita a tn an n antai
+- expected: in a n  t ' a nt iainati
+- got: ap i at t a t at iainatin
+
+- source: in i n tt  in atn
+- expected: n  a ti a   ai
+- got: a t a i patn
+
+- source: t nit   an a
+- expected: n't ntan  t ia a
+- got: t it' nt in n i a
+
+- source: t nit a i i  t ai t a
+- expected: n't ntan   t  at in it
+- got: a n ia t a in t
+
+- source: t i iti t
+- expected: t at
+- got: a t a
+
+- source: t a nit a i ni a tat
+- expected: n't ntan   a n at
+- got: a n a i nt n tat
+
+- source: a   niti
+- expected: an it  a n  atant i
+- got: a a aa
+
+- source: ni it
+- expected: a n at
+- got: tni a ain i pint
+
+- source: it t i
+- expected: a a
+- got: t' a
+
+- source: i it  ini  tiin
+- expected: t'  ti an it'  pai
+- got: i i t pn n a
+
+- source: i in a a nt it in
+- expected: n ai   a
+- got: a t i t at i a t
+
+- source: in nt na in
+- expected: n ait n n
+- got: a i a n
+
+- source: in iti ni in nt a  at
+- expected: a in n aian it
+- got: t a an iti nt a i
+
+- source: in apa
+- expected: apa
+- got: a a
+
+- source: i nn an n inn nn  t  an
+- expected: tin at a itt  tin t t t p
+- got: ta a n a n t
+
+- source: i nn an in t n in Lan intat
+- expected: tin at a ain itn in an ta
+- got: pp a a nt pa pp t nt
+
+- source: i n i a in iin a
+- expected: t  a i iin a
+- got: a an t i a a iin
+
+- source: i n i an  it
+- expected: t  piti  i
+- got: t t t a at t
+
+- source: nn i iti in n i n in it
+- expected: n   a  t  a t
+- got: a t a iptant nit t i
+
+- source: it it n
+- expected: a i atin
+- got: t' n in tn
+
+- source: it in ni  a nt n
+- expected: t' a n tin t t
+- got: t i a pa nt in t a
+
+- source: a a i it
+- expected: n at  a i
+- got: t t a
+
+- source: it a natinn
+- expected: a i inatin
+- got: a t a inatin
+
+- source: it a tai
+- expected: a i tai
+- got: t a tai
+
+- source: it a t
+- expected: a i pt
+- got: t' a t t
+
+- source: a it ntaa a  i
+- expected: at'  ntaa i  a it
+- got: i i a <UNK> ti
+
+- source: n int t i pa  inat n  it
+- expected: t ata in t ana  aip an a
+- got: n it t a n in
+
+- source: at  it inati ntnn it t intt t
+- expected: a  a intii intiatin it a intta a
+- got: t intii att it t pt
+
+- source: tin t  a it  t    iit
+- expected: i iiatin    t an t i  t
+- got: tin in t i t tat iit
+
+- source: Lt n inin an  it  ta ntnitt inan
+- expected: an t tin ta  t  it  pia intnit
+- got: p a t a n t n i pt
+
+- source: t pt a in
+- expected: it at ti at
+- got: t t ta a ia
+
+- source: i i ni it n  i a
+- expected: a ' a  n it
+- got: n t pn i t a t
+
+- source: i a at tt n nt at
+- expected: p at i t n piin  n a
+- got: i ntin t p
+
+- source: an it  t in i nt
+- expected: n i   n ti pint
+- got: i a tnt a a a
+
+- source: nn  iti i in t  it  n  antain in
+- expected: n at t  intn a  a t    int  anta
+- got: a at i pi i a i an api
+
+- source: in an a an
+- expected: a a  a
+- got: an a
+
+- source: i Lan i n a i in
+- expected: a  an t'  a
+- got: aa at t a in
+
+- source: n nn a patit atiitt tit'
+- expected: at in i ipa atiit it
+- got: t a t a pa atiit
+
+- source: a it ta a in an
+- expected: i i tin  a n
+- got: ' tin a t tat
+
+- source: a it ta a in an n atiia iit
+- expected: i i tin  a atiia iit n
+- got: at' t tan a a t <UNK>
+
+- source: iit it in in Liinittinnn
+- expected: iit i a patia ait  in
+- got: a itn t it a <UNK> tn
+
+- source: i it i iantt n tat a  aianin Litat
+- expected: i t  iiant an ia an  ian tt
+- got: t' ti <UNK> it an itat t itat
+
+- source: n i  ip i tt i
+- expected: a  ip  t a aat
+- got: i p i pt
+
+- source: a it in t
+- expected: at' n a t
+- got: i i at
+
+- source: i n in in itanin it
+- expected: i in a ti
+- got: i in a t p nit
+
+- source: it n  an n   in i nit i
+- expected: t n   a a t ' nt
+- got: i i a an n't t a
+
+- source: n i   a tt n an na
+- expected: Lt'  t  a tt an a
+- got: n tin at it an a
+
+- source: a it i  tat
+- expected: it'  aiia t
+- got: at' t ta a
+
+- source: i in t a i
+- expected: ' p
+- got: a tn t a a
+
+- source: n i ntn nt in i a in nn
+- expected: nt int t' n t a i
+- got: n a nt a i t a nt
+
+- source: t  nn ii  ina
+- expected: it   ip t
+- got: t a i tat a
+
+- source: iit n i ann nit an n nn
+- expected: a tn  n't a t nt ' n
+- got: a an't t p
+
+- source: i nntn n aninan aitn
+- expected: ain  it it
+- got: t t t tat
+
+- source: i a tapn
+- expected: t  i ntinn pan
+- got: i ta
+
+- source: Litat ain nttt i it
+- expected: itin an tii a
+- got: itat ain i ai nt
+
+- source: Litat ain ann i n t i in
+- expected: itin an tiat it init it t t ta
+- got: <UNK> ain an t i
+
+- source: i inn n in nt at
+- expected: a in nt pan
+- got: in t t n pa p t t
+
+- source: in an
+- expected: an
+- got: an
+
+- source: a in nn a
+- expected: t a a ati a
+- got: at a ati tin
+
+- source: a nt
+- expected: t a pain
+- got: a n pnt
+
+- source: i an  n tpat
+- expected: t t  apit
+- got: a t a <UNK>
+
+- source: a tant i a tn n it
+- expected: n  a atni  a  an an  a p n
+- got: at pant t n at
+
+- source: i a i i n i aint i
+- expected: at tin ta it  an it ipii a itt
+- got: n it i pa an it
+
+- source: t na n a
+- expected: an p at
+- got: a t a
+
+- source: t i nnnnn  a niin
+- expected: ant t t t n t a iniia
+- got: it t n n
+
+- source: t tn  n  at
+- expected: ant t ntan  ta t
+- got: n t it t
+
+- source: tatt i in npt it inn
+- expected: tat a a pt it t
+- got: at i in a t pt i p
+
+- source: t n ti n
+- expected: n t  p
+- got: it i t ti a
+
+- source: na i inn  a ininat an
+- expected: t t  a a anitatin
+- got: i i t i a
+
+- source: nit n it n Latan   i Latan
+- expected: in't t i in t t n   t t
+- got: t it' nt t a t at n
+
+- source: a in nt ii n in an an
+- expected: t a a aa pii an an aain atin
+- got: a nt pn a a at pp t
+
+- source: at na  tan
+- expected: n a at t
+- got: t' n tan
+
+- source: n a it nt an i n
+- expected: it ta a n ti t t  t
+- got: n tat' t t na tin
+
+- source: ann it a i a
+- expected: n t' t an
+- got: i i at it i
+
+- source: a it ii t  i it
+- expected: at' a a  t
+- got: at' a a ti i
+
+- source: nt a  i naiit
+- expected: a an at t ntn  ta
+- got: t an p ttin t a itin
+
+- source: t nit a  nttn
+- expected: t n tp in
+- got: n't it a n t nt
+
+- source: it a i in t  tn  iatin
+- expected: t' a i a   piatin  iatin
+- got: t i a a t iptant t t
+
+- source: i in n in
+- expected: t t aa  in tin
+- got: ' t ta
+
+- source: n ann it a a tia
+- expected: n tn t' t tia
+- got: n tn t' t a tia tia
+
+- source: i in i t  ntin nit
+- expected: a t it aian  pi at
+- got: ' nt t pi aa
+
+- source: i itat at i
+- expected: n n t
+- got: n a a
+
+- source: it  n i it ini iti
+- expected: i   tin i in  itia
+- got: t t a a t it i iptant
+
+- source: i n i tan n a i
+- expected: ' n t tt  a tia
+- got: t tt a it
+
+- source: i tan in in ttn nin
+- expected: a a ni in an iti
+- got: a n t i na
+
+- source: an i ann an i atn ann
+- expected: n n t pt t
+- got: n an at t ait ata
+
+- source: n i it t n n tn
+- expected: n ti  t
+- got: t a t a t t
+
+- source: i in i in in
+- expected: a at a   aan
+- got: t i a t tin
+
+- source: i t
+- expected: ' in t  a
+- got: t a
+
+- source: t an a ai t att
+- expected: ant t i tat ai a it
+- got: t a t a n
+
+- source: i t
+- expected: a in t  a
+- got: t a
+
+- source: it in nt tatiti
+- expected: t' a aa tatiti
+- got: t' a t tan tt nt
+
+- source: n i i inn nt i  ann
+- expected: a a nt t a tan
+- got: tat i n t' at t it
+
+- source: a n a t
+- expected: n at' p
+- got: a
+
+- source: a it nit
+- expected: t  n
+- got: t it' nt
+
+- source: a n a t
+- expected: n at i p
+- got: a
+
+- source: at a
+- expected: L
+- got: a
+
+- source: apa it nit nti
+- expected: i nt nti
+- got: at ti in't t
+
+- source: i it in t an ann i nit in
+- expected: t' nt a it t  an't at it
+- got: i i a t nt in t a
+
+- source: t a  it
+- expected: n a n it
+- got: tat ai a
+
+- source: n  intnpapt
+- expected: itn pt aniapp pa
+- got: a t t pa
+
+- source: a an  a   n apa it n in an
+- expected: tta t   t  p an pa i t n
+- got: at a n t it a pp at
+
+- source: nn  in pia  ntn   i in ai
+- expected: t a an ppin pi   in t  a
+- got: pia pa n t a p
+
+- source: ii a in   it in iattat
+- expected: ii a   i  tn
+- got: an tat' a a at a a t
+
+- source: a in at  t a i in tain in
+- expected: n't tin ann n nti  n't taian
+- got: a a it in t aa a taia
+
+- source: a a aa tppt
+- expected: a tapan n aa
+- got: n t a t n tpp
+
+- source: a a aa ta t
+- expected: a n aa t' a
+- got: t a in ti t a n tn
+
+- source: in n ann i a
+- expected: t n ia   i in a a
+- got: n an t a
+
+- source: tt ann i a a  p tn
+- expected: n n  an tan n  a
+- got: n an at i a
+
+- source: a ai a an  apiatt
+- expected: a i t pt   t tat patnt
+- got: at' t pint t t pit
+
+- source: itn i
+- expected: 
+- got: n t a
+
+- source: i a ni in
+- expected: t  n t at
+- got: n a t ti
+
+- source: in t  in n it
+- expected: t' a pa at a i it
+- got: tt in t i t in
+
+- source: a in n it
+- expected: a a i it
+- got: t a nt t
+
+- source: a apa
+- expected: a a pa
+- got: a a
+
+- source: ni i ni i
+- expected: at at  at at
+- got: L a nt
+
+- source: tt i an i in ni i
+- expected: an  ait '  at at
+- got: i i t a int t
+
+- source: a i  nit
+- expected: in't t t pat
+- got: t it an't a
+
+- source: n a i
+- expected: n t t pat
+- got: n t a a t t
+
+- source: i ni iitit a Ln
+- expected: a iitatin i
+- got: i n a t <UNK> i
+
+- source: in a  a
+- expected: a a in t
+- got: a i a
+
+- source: i ttn n pt Lt in
+- expected: n i pt pp
+- got: i at pp in t a i
+
+- source: nan ttin a i
+- expected: t t  ptin t t
+- got: n nan a it
+
+- source: i iin
+- expected: a a i
+- got: i pa
+
+- source: in   a
+- expected: i a a in
+- got: a tin
+
+- source: n i an i
+- expected: n   i it
+- got: n app
+
+- source: i  in i it in inn pti ii
+- expected: n  iaiit n t  i  i ai a
+- got: an i a at t i t a pain
+
+- source: it i ppt
+- expected: i  ta
+- got: a a an
+
+- source: n in ait  nippnit
+- expected: n  ait  t tit
+- got: it a a aa
+
+- source: at i n anit
+- expected: at
+- got: t a t i
+
+- source: i tn  i tn
+- expected: a pa
+- got: t t t
+
+- source: in inn it  ita i i nt
+- expected: iaiit i a ia a a
+- got: i inn i t t pat a
+
+- source: i it ian in aan  i iit nit i
+- expected: i   p it ia ia  n't tin
+- got: t a nt a t in ia
+
+- source: iit nit
+- expected: a nt
+- got: t a nt
+
+- source: iit at  i n in   in in t  in
+- expected: a it ti ta a ia t ta  in
+- got: t at a n an t a
+
+- source: a pntantin  n ntaat   i ati atina itt
+- expected: a a at pntin t at tat    at t
+- got: n t atina ia pati atina t
+
+- source: a in it in  i   tn
+- expected: t  i p
+- got: t itt an ina i n t t
+
+- source: nn tan ant a i atn  p
+- expected: p i inin t   p
+- got: an a t it it
+
+- source: i  n  pa n  nn  n
+- expected: t  t p pa n  n  t t n
+- got: a ana
+
+- source: a inn i
+- expected: i t
+- got: at tin
+
+- source: i n  n i  ta ati a
+- expected: nt a it a a i tin t
+- got: t t a t n a at t p
+
+- source: inn i n aan i i a ni
+- expected: atin t it  p
+- got: i i t ap t a
+
+- source: an t  a
+- expected: a it a t ti
+- got: t t
+
+- source: it a nit a it n itn i in
+- expected: ' ntin n it t  t tin
+- got: t a nt a t pi it
+
+- source: i an n Ln nt n it
+- expected: ' pan an ni  i
+- got: i in i t t
+
+- source: i n nit i n   nit
+- expected: t t n't  anit' i p
+- got: i nt t
+
+- source: a it pait
+- expected: at appn
+- got: t i
+
+- source: i n it i nit t n
+- expected: t  n't tin tat panatin i  n
+- got: n it' tain nt ta t
+
+- source: t apti a it iin a nit tit
+- expected: t t pain at' n it iin a
+- got: it t iin i nt t
+
+- source: ana ntin i t nit i n   n
+- expected: ti   nt t  i p
+- got: ti t in n't int t t
+
+- source: i nntn  a in nn i n
+- expected: t a i  ant
+- got: it a a
+
+- source: at a n inn an ntn
+- expected: n a t tin  a pan
+- got: a t t tin t at
+
+- source: an at a nnt a itn  Lnittn in
+- expected: ain  n nt t  a  ai in  pp
+- got: a a at tn t nt p a
+
+- source: ii  in ii
+- expected: a p a a
+- got: t a a
+
+- source: tit nit a i   nit it nin n nnn
+- expected: t' nt t tat  an't  i p t tn
+- got: n't tin tat an a
+
+- source: nit a a
+- expected: t i nt
+- got: t nt a
+
+- source: a n i a ntnt
+- expected: t a t t a aa
+- got: at' t n t ntnt
+
+- source: n  it ita  a ii in ntat  t at
+- expected: n aa it an't n in   a p
+- got: n it' ita a n in a i
+
+- source: i tt  t n na nit an ann
+- expected: n  n't a  t an
+- got: ti i t a pi an an't t
+
+- source: in an
+- expected: an
+- got: an
+
+- source: t  inan  n  in
+- expected: ' i t init  t
+- got: t an a
+
+- source: t i   tt  in at
+- expected: ain  tanin ti t nt
+- got: a i t a tin
+
+- source: tt t i in pp iti  a in an
+- expected: iai a pa  it nit n i
+- got: a a i in t it a
+
+- source: t i a ii tn
+- expected: n  t ata  ti
+- got: a a antin t i
+
+- source: n ann an i a it in in at
+- expected: n t a tait int t nt
+- got: n n t i t i n i
+
+- source: a Lit int a a nt
+- expected: it i inin n n i nt
+- got: at i t t i
+
+- source: in pnn
+- expected: t' a tain
+- got: a tain ania
+
+- source: annt at pn i in a  in a itt
+- expected: an patia  i   tiin  n
+- got: an a a ti it a n
+
+- source: an i i i in in ni
+- expected: a pat i a pat i int  iin
+- got: t a a i t ain
+
+- source: tt  i in in
+- expected: n tn   int  itn
+- got: ' in t pa t
+
+- source: a tt n i n
+- expected: a pn
+- got: at tin t
+
+- source: it nit tat  apinip
+- expected: t' a t nit tat  apinip
+- got: t' nt t ata nti t' pain
+
+- source: Lntn i an n tnn n tnn n nanntn
+- expected: iin t na  n an n an n  tan
+- got: ti a a n a t a na
+
+- source: n tn i an it in n nin intn
+- expected: iin nti p in t a  int
+- got: n t in t an i
+
+- source: a it t
+- expected: a i ti i nia
+- got: at' t tat ti ai
+
+- source: i Lt n nati iitn an
+- expected: pp t  a  nat
+- got: p a iit pptniti t a
+
+- source: in an i it inin n inn  ntatn
+- expected: n  tat tain t a   t ptit
+- got: a a t it a n ini an nt
+
+- source: n  at  in in nat
+- expected: n  a i ' nt a aant
+- got: n ai ' a ta in t t nt
+
+- source: a n in nitti tni
+- expected: n at  a t an aa
+- got: ' n at a aa ia
+
+- source: nnt  itn pa
+- expected: n itn pa
+- got: t it ana
+
+- source: a  i
+- expected: ' i at
+- got: a t tin
+
+- source: t in a a i  ann
+- expected: t i p t t  tat an an  ti
+- got: a a an
+
+- source: in  t a in anann nit a
+- expected: an ' t t tat  it
+- got: a pnt a n t tat n't t
+
+- source: n a a  nan in  tan i  i
+- expected: n tat a t innin  a  tan n
+- got: n tat' at a a i
+
+- source: a in n ii intant Lt tn
+- expected: t a t  a inttin pp
+- got: a a n inttin t a t pp
+
+- source: a i it  ipi
+- expected: i i a  a
+- got: a ti i ap
+
+- source: ann it  pt nt i
+- expected: t n  t pt  t ti
+- got: t' a t at pt an t
+
+- source: i  nnn
+- expected: i i i
+- got: an a
+
+- source: i ntt a in
+- expected: an a n
+- got: n t an t
+
+- source: in i  a i
+- expected: t at tan t t
+- got: t in t a it t ti
+
+- source: a n nnn i ann aa ta nn
+- expected: n i t tin t t   an an  ti
+- got: at' t an an tin tat an ai
+
+- source: i it in n n i iai tnitit
+- expected: i i  in n i tti   apin
+- got: i i an ia a i iat
+
+- source: a
+- expected: a
+- got: a
+
+- source: a it in a
+- expected: at' i na
+- got: i i a i
+
+- source: it  n  t  a
+- expected: at it a
+- got: t ati
+
+- source: i t ntii innnn a it ta
+- expected: a  int ant  in tat' i
+- got: a t a int a tt t
+
+- source: a t i  i
+- expected: at' in n
+- got: at i in n
+
+- source: n a  a  tt i nit
+- expected: t na a n't ata an antin t
+- got: n n't it
+
+- source: i nnn
+- expected: t t n nn a  n a
+- got: an a
+
+- source: tan i i tn
+- expected: a a nn it at
+- got: a t an
+
+- source: an  an in nn
+- expected: a a  n ti an
+- got: an a ' t at a
+
+- source: in t nn i n  it na a n
+- expected: a   n t
+- got: ' in t a n an in
+
+- source: iit nnn i a inn
+- expected: a  n n a a
+- got: a an a a
+
+- source: i  a  tnipaat annt
+- expected: t a t  nn a t  paa
+- got: i a n t ati ip
+
+- source: ian ann an  ann a nian i   n at
+- expected: an a  a ini n an a  t  ittin
+- got: n an i tat
+
+- source: i p nnn nit iti tattt n
+- expected: i an't  pp i
+- got: annt a t it <UNK>
+
+- source: it in ai na  ann
+- expected: t' n ta pnin ant
+- got: i i a ai p
+
+- source: i ntinit  a
+- expected: ti
+- got: it
+
+- source: nntt  n t i i  in at
+- expected: at  it  i pit  at t nt
+- got: t at t a ta
+
+- source: n a  i aan innn inn n   tn
+- expected: n tat  in  tat   ant t tn int  in
+- got: n t in an aan
+
+- source: inin itn tnittpn an
+- expected: n  nt t a    t  ntt
+- got: ai pin a' it
+
+- source: a a in
+- expected: t t a a p
+- got: at' a t i
+
+- source: in nait i a ta   nt  in
+- expected: n ' a nait  n tin t it at
+- got: a iat t a it i na
+
+- source: iit in it
+- expected: a it a a p
+- got: a a it' i
+
+- source: t ttn a  tani i pa at
+- expected: n  n tat ti a in n
+- got: n t t pp ain
+
+- source: nnt i a nia tn
+- expected: n  a pt tat
+- got: an a it an tn t t a tin
+
+- source: tit i ain
+- expected: n  t ptt int it
+- got: n t a t ai
+
+- source: i in i it in tanatnittainint
+- expected: i i  ain  tana ptiti i' tainin it
+- got: a t i an pt n t
+
+- source: a  a a a pint nit i pant i
+- expected: a t pint nt ai
+- got: t a t pint n't n t
+
+- source: a in n i
+- expected: a t ti
+- got: a iin
+
+- source: t tni in antainit
+- expected: at i a an
+- got: a t a p pp a t
+
+- source: i n n in  nn i apan
+- expected: t t t ai    n  pa attntin
+- got: n a t an t pp
+
+- source: i innn n nn i nait in
+- expected: n  a p na
+- got: tat n a
+
+- source: tnipaat i tnitnin i in a n nn
+- expected: paa t  tni t' t tt
+- got: ni <UNK> i n a pa
+
+- source: ati in  nit a ii nn
+- expected: n at t' nt n a tt
+- got: nt a a
+
+- source: i ntinin i i n inn  aitn
+- expected: a t a
+- got: in t a in
+
+- source: in in nn
+- expected: t t ata a n tt
+- got: a n ia
+
+- source: n in i tni ant
+- expected: i i  t i a a
+- got: i a a ntant tn
+
+- source: an
+- expected: an
+- got: an
+
+- source: i  L t i t n nn
+- expected: n i an ta  a i an tt
+- got: t ant t a tat t t
+
+- source: a aaan a
+- expected: a t  ainnt
+- got: t a aaan
+
+- source: i itn an nt i tn
+- expected: n t  a a  aat a
+- got: t t n an t t
+
+- source: i ' ini in ttn  an nit tatpi
+- expected: tnt p i nt a tatpi
+- got: at a a n t pt an
+
+- source: ini in atn in nittn nit n t a
+- expected: att i n't in
+- got: t a ata an t i n in
+
+- source: a i i nann
+- expected: n tat t  tinin
+- got: t t tin at ti
+
+- source: in nta n i inn  t int iitaai
+- expected: a ta an  nt t t int iita a
+- got: a inta n a ti i n t pt
+
+- source: n  a it  inn
+- expected: n ' in t an t t n
+- got: n t' a a
+
+- source: n  a nit ia ntin
+- expected: n it an't ia intin
+- got: n it a nt pan
+
+- source: a nit t n pi nit n  a nit
+- expected: t an't   pia at an it an't
+- got: an't at t n't
+
+- source: a atn
+- expected: t a it
+- got: t a at t it
+
+- source: atn it Linat n a   aniti i
+- expected: it i pain an pan   nt a
+- got: t i t pain tin a a t
+
+- source: atn it tn
+- expected: it i ain taina
+- got: ai i in
+
+- source: i  i inn in i ita
+- expected: at    t ta i a i  ti
+- got: i in t ti
+
+- source: i at i i  itan tiit
+- expected: p t tiat  t n n
+- got: ai t ant t an pati
+
+- source: i i ntt  i  nit
+- expected: nt an i  n't n
+- got: n t ain t an i nt t
+
+- source: i an
+- expected: t  n
+- got: i int
+
+- source: a it i it i  n it
+- expected: at' t  tat tan
+- got: i i t i tat n
+
+- source: in an
+- expected: an
+- got: an
+
+- source: t a i in i a
+- expected: a tt  t  t iin
+- got: t an a
+
+- source: tt a a npt
+- expected: n it a in ti ia  t at
+- got: t' t ia npt
+
+- source: in an
+- expected: an
+- got: an
+
+- source: i in  anti a i  i n in
+- expected: tin t a  npa t'  i   it
+- got: a taina n a t in
+
+- source: an it  in nit na i
+- expected: n  tin t a t
+- got: tin it' nt at a
+
+- source: ann in i i tn  tan
+- expected: n i an ai   a  tt
+- got: tat t a t i t tin
+
+- source: n in a i tn a tan i aan
+- expected: n t ti i a ta   i tt
+- got: i nt t it a t ti tin
+
+- source: i t  i
+- expected: n't a an i
+- got: t t
+
+- source: it a in t i
+- expected: t i tat  in
+- got: i a a a at
+
+- source: innan n  a  innn
+- expected: at pinin p  i   pinin
+- got: t t nt t at appn
+
+- source: a nntn i nt n
+- expected: at  an t
+- got: at it t t
+
+- source: tan i itin tan i Ln
+- expected: tt pitiian   tt ta
+- got: t n i t in i
+
+- source: nn i tt an at tan i nn
+- expected: i  ai t    tt n
+- got: in t tt a
+
+- source: tan i inn
+- expected: tt in
+- got: tan inta a i a i
+
+- source: tan i nn
+- expected: tt nta  ta
+- got: n an pp
+
+- source: ann n i  an nin na
+- expected: pa in  ain   at
+- got: tn a t na iti
+
+- source: n a  in nnti atin
+- expected: n tat   a pt ni pn
+- got: n it a a an atina pn
+
+- source: i atina
+- expected: at' a pt atina tin
+- got: i atina
+
+- source: ina
+- expected: ip
+- got: n ti n
+
+- source: itn n i  i
+- expected: n at at t ai
+- got: n t t ti
+
+- source: a i it    tan
+- expected: ai i t a  tt
+- got: i t
+
+- source: i at in i a i
+- expected: an  tin tat' a tpi ai
+- got: i i t in ti at
+
+- source: aa  i nit ain
+- expected: t' nt at   ai at
+- got: n t a t nt
+
+- source: tan it in  i in i Ln
+- expected: tt i nt an intint ai in ti i
+- got: n ninnt a i in i an
+
+- source: tan  intn n  in t a i in
+- expected: ntint pa an intint  tt i t pp ai
+- got: t at an t n t
+
+- source: i taniit n nn intn  nnn
+- expected: t' in  ttt pp a in patia pt
+- got: t at ppt ant in t t an
+
+- source: n  a  tn n i i in tatn
+- expected: n  tin tat nt i  t  at t tin
+- got: n at ant t i in ai
+
+- source: in i ptnt in i i in i i
+- expected: t ptnt  t nt  t ia
+- got: t a a i i t i patin
+
+- source: a  a i  n nit annt
+- expected: an't t ptt it
+- got: a nn
+
+- source: ana n i t taniit ann tan
+- expected: t tat' at ' in  tttin  tt
+- got: ti t tt t tt t tt an tt
+
+- source: tan it i atin
+- expected: t i t pn
+- got: n t it i aa atin
+
+- source: i taniit n i intn a it nati
+- expected: ttin i at  a t  n   it' iit
+- got: t at itt <UNK> in t a int
+
+- source: i i t an n ntiin t
+- expected: t  t t a t n t
+- got: a t t int at t t
+
+- source: i ntinin nit i aitit
+- expected: n't  a t' pp t
+- got: n't a ntan ti t' ati t
+
+- source: i ann ii  ipi itan
+- expected: an a i  n ap t
+- got: t an i a t a ap
+
+- source: i a  i
+- expected: t ai
+- got: t a a
+
+- source: n nn  a
+- expected: ti t ta
+- got: a t ni
+
+- source: i nnn a nati  n t tn
+- expected: an  tat
+- got: an ntan tat
+
+- source: i nnn in in taniit innn
+- expected: an i a it  tttin
+- got: an a tan t <UNK> in an
+
+- source: nnn i Lt i tan ininan n
+- expected: an  it t pp tt tin t ip tt
+- got: an t i pp in t an
+
+- source: an  inn in ai n a i in tan
+- expected: a t i t t ai  iin  ti tt
+- got: n t a itt patin n t
+
+- source: an  a tani in
+- expected: a t  tin  ttt
+- got: t a t a aain tin
+
+- source: i t a
+- expected: t  it
+- got: i tat
+
+- source: i it in ina i ipi
+- expected: Lt  i  a ip ia ap
+- got: ' a ip ap n ti
+
+- source: ain tt in iti a
+- expected: tin t' a i n in tat
+- got: ain ant t a a tin it
+
+- source: an
+- expected: an
+- got: an
+
+- source: i at i natan nit  an
+- expected: t tta inat  iainatin  nt
+- got: n t an t ain n't tat
+
+- source: Liinaat a nati ina
+- expected: ait aat a ina
+- got: <UNK> a nati
+
+- source: a n  a an
+- expected: t  ia   t an
+- got: a an ta t
+
+- source: at in n nit tatt
+- expected: t i nt tat tat tn
+- got: i i nt t at a
+
+- source: i in n i
+- expected: n at ' tain at
+- got: i ania
+
+- source: na
+- expected: a
+- got: n
+
+- source: nt ina it  in  a n   ni at
+- expected: n i t'  itt in in  ia
+- got: it a pnt ti an t a a tin
+
+- source: i n in ii ai n i i p
+- expected: n a at ai a a t app t
+- got: ' a ai a p
+
+- source: pait  nit
+- expected: t tat' nt  it appn
+- got: t ntin appn
+
+- source: n itpnt att i na inn n
+- expected: t tat pint  a a a n
+- got: n a a nt
+
+- source: a   it a ina i a at
+- expected: a n t at t ti
+- got: t' a t a at
+
+- source: n i a i at a  a an at
+- expected: n  n at ' ain in
+- got: n ai a t n
+
+- source: in i a it  a n  n
+- expected: pa ti t  it  ia
+- got: n tat' n
+
+- source: i int t in i  in tn n
+- expected: t in  i
+- got: i a t t an t a
+
+- source: a tt  a n
+- expected: a  ti tanin t
+- got: at ti a
+
+- source: i nit a i an
+- expected: n't n at ' pp t
+- got: n't n at
+
+- source: it in i  i
+- expected: ' n   t
+- got: t' a ti
+
+- source: p in nn an  it i ntnt aa
+- expected: n it t a   t' n an n
+- got: pi it n t i
+
+- source: it  t Lan i i n nit an aatn
+- expected: t'   n't t tat tp
+- got: t a t nt pa tat nt pa
+
+- source: t i in i i at n t tann
+- expected: at nn  t i pa t  t
+- got: t tin t i at an ai
+
+- source: i nit  i n an t an
+- expected: n't n i ' a  ti
+- got: n't n t ta at t it
+
+- source: n i ina i atn  n
+- expected: t t t tat a
+- got: i i n t a
+
+- source: tann ann
+- expected: it an
+- got: a an
+
+- source: in an
+- expected: an
+- got: an
+
+- source: i an i itin n itinan n  inta
+- expected: n  it an ta t a t at t
+- got: i t a inttin a t pa
+
+- source: t it nn ann  n t
+- expected: t ptt  n t  tt
+- got: i t i t t an n
+
+- source: tn i an
+- expected: at'
+- got: an
+
+- source: an i n inn i a i an n
+- expected: t'  at t n
+- got: t t t ti at t
+
+- source: a it nit
+- expected: n t' nt a
+- got: t it' nt
+
+- source: i at a
+- expected: ' at it ai
+- got: at
+
+- source: n nit a a i   ainn ntatnt it
+- expected: n't tin tat' t at  ppa nttainnt
+- got: n't tin it' it ai t ita
+
+- source: a nit a ini inta ait  tn an
+- expected: n't tin i' i a antin t  it tat
+- got: in't t antin t tat
+
+- source: in i pn a nn i
+- expected: a t  at a t anin
+- got: ' t ta at t ap tin n
+
+- source: a an i nit  nn
+- expected: at a t aiin t an
+- got: t n't a t pp
+
+- source: n i i it  a
+- expected: ain p tat t
+- got: n t i ti
+
+- source: i initin n nniit it it ai i  nn
+- expected: initin  an i aa tnin pi n
+- got: ' initin n ' i ina
+
+- source: i n inan it
+- expected: ' tin it p in t ai
+- got: n t t pa in t
+
+- source: ian
+- expected: ian
+- got: ian
+
+- source: ian ni n ina
+- expected: ian ni an ina
+- got: t a an a
+
+- source: a an i in ina
+- expected: at  t t a in n
+- got: i i at a a i
+
+- source: iit it  nit n a itn i
+- expected: a it' nt t t pa
+- got: t a it' nt t a t pat
+
+- source: n i in in in ptn
+- expected: tin t pp a pt
+- got: a a pt n a i
+
+- source: in i n
+- expected: t a a
+- got: a t
+
+- source: t  an i i
+- expected: ant  t i tat
+- got: n t a a
+
+- source: in an
+- expected: an
+- got: an
+
+- source: nn inn an nit a a in it
+- expected: n't n i na t   n i t
+- got: n't t t ti i t i
+
+- source: t in in inn  i n aia
+- expected: i in a a ia in tn aia
+- got: n t tin a in tn a t ia
+
+- source: in  it in   n ai
+- expected: i ia i na ai
+- got: n it in a t p
+
+- source: t iit in a a nit
+- expected: a a a pa ntin
+- got: a t it n't t a a
+
+- source: i i n a tt
+- expected: i int t ti n an
+- got: t at t
+
+- source: ii iatt
+- expected: nta t ai
+- got: t ai at
+
+- source: innt in n Ln
+- expected: tat ti n i
+- got: tat a pn t in
+
+- source: in Ln at inn inn
+- expected: a a pp in i
+- got: i i n at t
+
+- source: att att
+- expected: a aitin
+- got: i i a
+
+- source: ta it  i n i nt  n itiit it
+- expected: tn it' t    t it npnt at
+- got: ta i t t an tan pp
+
+- source: n in ttat ai in   nn Lt nt itiit
+- expected: n in  it  it ai  pnt  n pp   npnt
+- got: n t ai a iit in t ai nt
+
+- source: an in it n nit
+- expected: pnt n't  n't  t
+- got: in i nt tat
+
+- source: i an inti a nit
+- expected: ptt   ntin
+- got: ata in't a antin
+
+- source: a nn i   in tan  ait nn n
+- expected: at i  a n  int tat a tat  ait
+- got: at i t a it ti t a
+
+- source: i it n
+- expected: a  a tit
+- got: t it' in t
+
+- source: in nit i a i anttn
+- expected: ' nt a  at t an
+- got: t' nt t i at t i a
+
+- source: at n  n ai nt an
+- expected: t tt at  n ai a
+- got: a t a t aia
+
+- source: a a in n ann n
+- expected: n  t n n in t  a n
+- got: t a a n in t at
+
+- source: t i niitt in ai n at t inn
+- expected: nt t niit in ai aat
+- got: ti t p t a niit t a t
+
+- source: a in it n in iitn
+- expected: n  n pptniti
+- got: a nt a it a n
+
+- source: i tn Lt i in
+- expected: t pp i i t
+- got: t at pp in n a
+
+- source: i it nit inn ann La
+- expected: t i t ta a int t
+- got: i i nt t itt a a
+
+- source: n annt i nit n i i
+- expected: n a an pptnit an i it
+- got: in't t nt i
+
+- source: nt in tat
+- expected: tat a ti pan
+- got: t n't a t n it
+
+- source: i ntit i i it n  ann
+- expected: i ti t int
+- got: tin t a an t a
+
+- source: a at n nti a
+- expected: at a i t int
+- got: at a t at ppit
+
+- source: an ann nn Ltn iinn ntn  in
+- expected: n  an tain n pp t  ntpn
+- got: an t pp a iin t pp
+
+- source: a a in nit
+- expected: a a an pptnit
+- got: t ti a nt t a
+
+- source: nt in Lanattni it nan
+- expected: tat a anapin an in a pan
+- got: an a nt pa ti t i
+
+- source: it in ntin a in ai
+- expected: ' n pi pa in ai
+- got: i i a nti a
+
+- source: i attn ni ii a naat in ntnn  nn
+- expected: a n a tt at tatin p a in
+- got: at a a tn t tat ti a n
+
+- source: tt i i tat a inn t  iitn  tatn
+- expected: t t  at ti it a a pa  pptnit
+- got: it i a t at t i
+
+- source: i attn ntnin Lnn  a
+- expected: a p it ntpnia tin t a p
+- got: a a in anin
+
+- source: i tt ntnt  a n i nn in t
+- expected: ntpnip i  tan t tatin p a in
+- got: n t ntnt a a in t t
+
+- source: t  i an ia t
+- expected: t' at atin a ia ipat
+- got: t' at a ia ai
+
+- source: a at nit ina n n
+- expected: a i nt ip in
+- got: t tat a nt t a t ip
+
+- source: a  at nn
+- expected: i  i in p
+- got: a tin
+
+- source: a inn i an a  nn tan  ait  ntn
+- expected: a t t pptnit t ap t paai  ait
+- got: at i n a an t tat
+
+- source: in an
+- expected: an
+- got: an
+
+- source: i n in   inn
+- expected: t  n t  t' a t in
+- got: a t at
+
+- source: i in n an t a  n
+- expected: '  in an ' iit t
+- got: n ti n t it a n
+
+- source: na in in it att i in tin ntit
+- expected: ti  t  t in  t
+- got: na nt a it t ti a
+
+- source: a t i a atitni  ntn
+- expected: i i a at t  t in atit ia
+- got: n an tat a tit
+
+- source: i  La  i  an
+- expected: tat t  a t   t i  t
+- got: t in t a t ti an
+
+- source: in  tin it i t a nn
+- expected: ain n i t att  a ain
+- got: a atin i t a t pia nn
+
+- source: it nit in i Lan
+- expected: ' ntin i it in t an
+- got: t' nt a in
+
+- source: a nit    nt
+- expected: a it tn t  a nt n in
+- got: t it a nt
+
+- source: a ann an it  n a tan a  in
+- expected: t tain pt inin a  t a in ppti
+- got: at an i ti a n a a
+
+- source: an ia
+- expected: an
+- got: an in
+
+- source: an
+- expected: an
+- got: an
+
+- source: it a i n i nain pa ainit
+- expected: in tn  a ainat  ti ini ana
+- got: t i a aat ti ana t ana
+
+- source: in ini t tt a  itin
+- expected: in a  ntan  aat
+- got: n t a at pt
+
+- source: i an n  itin  in ina ittnni
+- expected: n n  t ntan t ai ita
+- got: a a at itia tan ap
+
+- source: in i it
+- expected: a a
+- got: a
+
+- source: aa i in n
+- expected: t a t
+- got: ' n t
+
+- source: i n t pain
+- expected: i i a pn in  a a
+- got: i at in
+
+- source: n
+- expected: n
+- got: 
+
+- source: a it in a
+- expected: i i a t
+- got: i i a i
+
+- source: a
+- expected: 
+- got: a
+
+- source: a it in
+- expected: i i a ntain
+- got: i i a i
+
+- source: i nn
+- expected: n
+- got: pn it p
+
+- source: n
+- expected: n
+- got: 
+
+- source: i at itin in aia
+- expected: a t it aat aia
+- got: i i a a in t ia
+
+- source: i in  nt  in ia n itin  in
+- expected: a t iin    t at t  aat
+- got: a nt t i a ia in
+
+- source: in n
+- expected: pn
+- got: i
+
+- source: nn n an aint tt ann tt  n
+- expected: n a in tat i t
+- got: t a t a n
+
+Bleu Score = 2.9057185113226556
