@@ -3,6 +3,7 @@ transformer for tagging
 
 transformer implemention for Chinese words segment.
 
+Please run `pip install -r requirements.txt` first.
 
 
 
