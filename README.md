@@ -42,3 +42,9 @@ For the labeling task the BLEU was implemented to evalate the model. Our model a
 - got: 报名 提交 的 报考 申请 材料 必须 真 、 准确 。
 
 ```
+
+
+# Ref
+
+-  https://github.com/Kyubyong/transformer
+-  (Attention Is All You Need)![https://arxiv.org/abs/1706.03762]
