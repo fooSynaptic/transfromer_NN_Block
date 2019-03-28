@@ -6,9 +6,24 @@ transformer implemention for Chinese words segment.
 see the source transformer model: https://github.com/Kyubyong/transformer
 
 
+# train
+-The aim of This rep is train a sequence labeling model with **Transformer**. I follow the 
+conventional sentence tokenize method - **/B/E/S/M** (represent the word begin/end/single word/in the middle respectively).
+
+- I used some labeled chinese Ducuments to train my model. The raw data presented in the `./dataset` dir. Or you may want use the `prepro.py` to preprocess the raw data.
+
+- Just use the `python train.py` to train the model.
 
 
-#result demo
+# eval
+- Just run `python eval.py`
+
+For the labeling task the BLEU was implemented to evalate the model. Our model accieved the Bleu score nearly reach to the 80.
+
+`Bleu Score = 79.347268988273`(See the `./result/model_epoch_20_gs_1560`)
+
+
+# result demo
 ```
 - source: 采 取 现 场 报 名 与 资 格 审 查 方 式 进 行 。
 - expected: 采取 现场 报名 与 资格 审查 方式 进行 。
