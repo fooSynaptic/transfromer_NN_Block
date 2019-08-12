@@ -3,6 +3,7 @@ We'd like to try a sentence tagging problem with transformer.
 
 So we implemented transformer in a conventional problem in NLP-Words segment(Chinese).
 
+# INSTALL ENV:
 Please run `pip install -r requirements.txt` first.
 
 
