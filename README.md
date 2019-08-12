@@ -1,7 +1,7 @@
 # transfromer_jieba
-transformer for tagging
+We'd like to try a sentence tagging problem with transformer.
 
-transformer implemention for Chinese words segment.
+So we implemented transformer in a conventional problem in NLP-Words segment(Chinese).
 
 Please run `pip install -r requirements.txt` first.
 
@@ -17,7 +17,7 @@ conventional sentence tokenize method - **/B/E/S/M** (represent the word begin/e
 
 
 # eval
-- Just run `python eval.py`
+- Run `python eval.py`.
 
 For the labeling task the BLEU was implemented to evalate the model. Our model accieved the Bleu score nearly reach to the 80.
 
@@ -48,4 +48,4 @@ For the labeling task the BLEU was implemented to evalate the model. Our model a
 # Ref
 
 -  https://github.com/Kyubyong/transformer
--  [Attention Is All You Need](https://arxiv.org/abs/1706.03762). Most of the modules comes from this rep.
+-  [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
