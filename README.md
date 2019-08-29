@@ -1,13 +1,17 @@
-# transfromer_jieba
-We'd like to try a sentence tagging problem with transformer.
+# transfromer_NN_Block
+We are doing this to implemented transformer as a neural network building block to overcome several task in NLP research, this rep follow the implementation if [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
 
-So we implemented transformer in a conventional problem in NLP-Words segment(Chinese).
+This rep fullfilled two tasks:
+- The seq2seq text generation, we try to implemented transformer in a conventional problem in NLP-Words segment(Chinese).
+- The text feature encode architecture for classfication.
+
+
 
 # INSTALL ENV:
 Please run `pip install -r requirements.txt` first.
 
 
-
+# ***First- the encoder-decoder architecture***
 # train
 -The aim of This rep is train a sequence labeling model with **Transformer**. I follow the 
 conventional sentence tokenize method - **/B/E/S/M** (represent the word begin/end/single word/in the middle respectively).
@@ -45,6 +49,8 @@ For the labeling task the BLEU was implemented to evalate the model. Our model a
 
 ```
 
+# ***Second - the transformer feature extraction block***
+- you may find the code in `./transformer_text_Classfication`, codes about preprocessing and training as well as evaluation locate in this path. And the wrappers usage are similar to encoder-decoder architecture.
 
 # Ref
 
