@@ -23,7 +23,7 @@ def eval(task_name):
     print("Graph loaded")
     
     # Load data
-    X, Y, Texts, Labels = load_test_data()
+    X, _, Texts, Labels = load_test_data()
 
     word2idx, idx2word = load_vocabs()
 
