@@ -12,38 +12,7 @@ from data_load import load_vocabs, load_train_data, load_test_data, create_data
 from train import Graph
 from nltk.translate.bleu_score import corpus_bleu
 import argparse
-
-
-
-
-def cut(seq, label):
-    if isinstance(seq, str):
-        seq = seq.split()
-    if isinstance(label, str):
-        label = label.split()
-
-    seq = seq + ['PAD']*(len(label) - len(seq))
-    assert len(seq) == len(label), "seq label is not compliable...{}, {}".format(seq, label)
-    tokens = []
-    i = 0
-    while i < len(seq):
-        if label[i] == 'S':
-            tokens.append(seq[i])
-        elif label[i] == 'B':
-            tmp = seq[i]
-            while i+1 < len(seq) and label[i+1] == 'M':
-                tmp += seq[i+1]
-                i += 1
-            if not i+1 < len(seq): break
-            #print(label[i+1], seq[i+1])
-            if label[i+1] == 'E':
-                tmp += seq[i+1]
-            tokens.append(tmp)
-        i += 1
-    return ' '.join(tokens)
-
-
-
+from sklearn.metrics import classification_report
 
 
 
@@ -76,6 +45,8 @@ def eval(task_name):
             with codecs.open("results/" + mname, "w", "utf-8") as fout:
                 list_of_refs, hypotheses = [], []
                 print("Iterator:", len(X), hp.batch_size)
+
+                predict_label = []
                 for i in range(len(X) // hp.batch_size):                
                     print('Step:\t', i)     
                     ### Get mini-batches
@@ -84,22 +55,21 @@ def eval(task_name):
                     labels = Labels[i*hp.batch_size: (i+1)*hp.batch_size]
                      
                     ### Autoregressive inference
-                    preds = np.zeros((hp.batch_size, hp.maxlen), np.int32)
-                    for j in range(hp.maxlen):
-                        _preds = sess.run(g.preds, {g.x: x, g.y: preds})
-                        preds[:, j] = _preds[:, j]
                     
+                    for j in range(hp.maxlen):
+                        #_preds = sess.run(g.preds, {g.x: x, g.y: preds})
+                        preds = sess.run(g.preds, {g.x:x})
+                        predict_label.extend(preds)
 
                     ### Write to file
                     for sent, label, pred in zip(Texts, Labels, preds): # sentence-wise
-                        #print('Inspecting:', source, target, pred)
                         #got = " ".join(idx2word[idx] for idx in pred).split("</S>")[0].strip()
                         fout.write("- sent: " + sent +"\n")
                         fout.write('- label: {}, -predict: {} \n'.format(label, pred))
                         fout.flush()
                         
                         # bleu score
-                        if task == 'seq2seq':
+                        if task_name == 'seq2seq':
                             ref = target.split()
                             hypothesis = got.split()
                             if len(ref) > 3 and len(hypothesis) > 3:
@@ -108,9 +78,16 @@ def eval(task_name):
                                  
 
                 ## Calculate bleu score
-                if task == 'seq2seq':
+                if task_name == 'seq2seq':
                     score = corpus_bleu(list_of_refs, hypotheses)
                     fout.write("Bleu Score = " + str(100*score))
+                elif task_name == 'classfication':
+                    assert len(Labels) == len(predict_label), 'The length of label and predicts\
+                        are not alignmentted.'
+                res = classification_report(Labels, predict_label)
+                print(res)
+                fout.write(res + '\n')
+                    
                                           
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Choice the task you want to eval.')

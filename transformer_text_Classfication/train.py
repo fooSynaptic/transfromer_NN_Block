@@ -20,7 +20,7 @@ class Graph():
             else: # inference
                 self.x = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
                 #self.label = tf.placeholder(tf.int32, shape = (None, hp.n_class))
-                self.y = tf.placeholder(tf.int32, shape = (None, hp.n_class))
+                #self.y = tf.placeholder(tf.int32, shape = (None, hp.n_class))
                 #self.y = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
 
             # define decoder inputs
