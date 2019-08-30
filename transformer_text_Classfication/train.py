@@ -9,6 +9,7 @@ from modules import *
 import os, codecs
 from tqdm import tqdm
 
+
 class Graph():
     def __init__(self, is_training=True):
         self.graph = tf.Graph()
@@ -18,6 +19,7 @@ class Graph():
                 self.y = tf.one_hot(self.label, depth = hp.n_class)
             else: # inference
                 self.x = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
+                #self.label = tf.placeholder(tf.int32, shape = (None, hp.n_class))
                 self.y = tf.placeholder(tf.int32, shape = (None, hp.n_class))
                 #self.y = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
 
@@ -75,77 +77,23 @@ class Graph():
             
             #in text classfication we just use the encoder to encode the feature and 
             #block out the decoder architecture, direct compute the loss
-            '''
-            # Decoder
-            with tf.variable_scope("decoder"):
-                ## Embedding
-                self.dec = embedding(self.decoder_inputs, 
-                                      vocab_size=len(en2idx), 
-                                      num_units=hp.hidden_units,
-                                      scale=True, 
-                                      scope="dec_embed")
-                
-                ## Positional Encoding
-                if hp.sinusoid:
-                    self.dec += positional_encoding(self.decoder_inputs,
-                                      vocab_size=hp.maxlen, 
-                                      num_units=hp.hidden_units, 
-                                      zero_pad=False, 
-                                      scale=False,
-                                      scope="dec_pe")
-                else:
-                    self.dec += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(self.decoder_inputs)[1]), 0), [tf.shape(self.decoder_inputs)[0], 1]),
-                                      vocab_size=hp.maxlen, 
-                                      num_units=hp.hidden_units, 
-                                      zero_pad=False, 
-                                      scale=False,
-                                      scope="dec_pe")
-                
-                ## Dropout
-                self.dec = tf.layers.dropout(self.dec, 
-                                            rate=hp.dropout_rate, 
-                                            training=tf.convert_to_tensor(is_training))
-                
-                ## Blocks
-                for i in range(hp.num_blocks):
-                    with tf.variable_scope("num_blocks_{}".format(i)):
-                        ## Multihead Attention ( self-attention)
-                        self.dec = multihead_attention(queries=self.dec, 
-                                                        keys=self.dec, 
-                                                        num_units=hp.hidden_units, 
-                                                        num_heads=hp.num_heads, 
-                                                        dropout_rate=hp.dropout_rate,
-                                                        is_training=is_training,
-                                                        causality=True, 
-                                                        scope="self_attention")
-                        
-                        ## Multihead Attention ( vanilla attention)
-                        self.dec = multihead_attention(queries=self.dec, 
-                                                        keys=self.enc, 
-                                                        num_units=hp.hidden_units, 
-                                                        num_heads=hp.num_heads,
-                                                        dropout_rate=hp.dropout_rate,
-                                                        is_training=is_training, 
-                                                        causality=False,
-                                                        scope="vanilla_attention")
-                        
-                        ## Feed Forward
-                        self.dec = feedforward(self.dec, num_units=[4*hp.hidden_units, hp.hidden_units])
-            '''
 
             # Final linear projection
-            print(self.enc.shape) #4, 500, 512
+            #print(self.enc.shape) #4, 500, 512
             self.enc = tf.reduce_sum(self.enc, axis=2) #4, 500
+            self.enc = tf.layers.batch_normalization(self.enc, True)
             self.logits = tf.layers.dense(self.enc, hp.n_class) #4, 2
-            print(self.logits.shape)
+            #print(self.logits.shape)
             self.preds = tf.to_int32(tf.arg_max(self.logits, dimension=-1))
-            print(self.preds.shape, self.label.shape)
-            self.cpl = tf.equal(tf.convert_to_tensor(self.label, tf.int32), self.preds)
-            self.cpl = tf.to_int32(self.cpl)
-            self.acc = tf.reduce_sum(self.cpl) / tf.reduce_sum(tf.to_int32(self.y))
-            tf.summary.scalar('acc', self.acc)
+
                 
             if is_training:  
+                #Accuracy
+                self.cpl = tf.equal(tf.convert_to_tensor(self.label, tf.int32), self.preds)
+                self.cpl = tf.to_int32(self.cpl)
+                self.acc = tf.reduce_sum(self.cpl) / tf.reduce_sum(tf.to_int32(self.y))
+                tf.summary.scalar('acc', self.acc)
+
                 # Loss
                 self.y_smoothed = label_smoothing(self.y)
                 self.loss = tf.nn.softmax_cross_entropy_with_logits(logits=self.logits, labels=self.y_smoothed)
