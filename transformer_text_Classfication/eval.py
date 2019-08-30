@@ -56,7 +56,7 @@ def eval(task_name):
     print("Graph loaded")
     
     # Load data
-    X, Sources, Targets = load_test_data()
+    X, Y, Texts, Labels = load_test_data()
 
     word2idx, idx2word = load_vocabs()
 
@@ -82,8 +82,8 @@ def eval(task_name):
                     print('Step:\t', i)     
                     ### Get mini-batches
                     x = X[i*hp.batch_size: (i+1)*hp.batch_size]
-                    sources = Sources[i*hp.batch_size: (i+1)*hp.batch_size]
-                    labels = Targets[i*hp.batch_size: (i+1)*hp.batch_size]
+                    sentences = Texts[i*hp.batch_size: (i+1)*hp.batch_size]
+                    labels = Labels[i*hp.batch_size: (i+1)*hp.batch_size]
                      
                     ### Autoregressive inference
                     preds = np.zeros((hp.batch_size, hp.maxlen), np.int32)
@@ -93,13 +93,11 @@ def eval(task_name):
                     
 
                     ### Write to file
-                    for source, target, pred in zip(sources, targets, preds): # sentence-wise
+                    for sent, label, pred in zip(Texts, Labels, preds): # sentence-wise
                         #print('Inspecting:', source, target, pred)
-                        got = " ".join(idx2word[idx] for idx in pred).split("</S>")[0].strip()
-
-                        fout.write("- source: " + source +"\n")
-                        fout.write("- expected: " + target + "\n")
-                        fout.write("- got: " + got + "\n\n")
+                        #got = " ".join(idx2word[idx] for idx in pred).split("</S>")[0].strip()
+                        fout.write("- sent: " + sent +"\n")
+                        fout.write('- label: {}, -predict: {} \n'.format(label, pred))
                         fout.flush()
                         
                         # bleu score
