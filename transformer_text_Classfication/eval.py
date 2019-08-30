@@ -42,8 +42,6 @@ def cut(seq, label):
         i += 1
     return ' '.join(tokens)
 
-#test case
-print(cut('l i k e m e','B M M E B E'))
 
 
 

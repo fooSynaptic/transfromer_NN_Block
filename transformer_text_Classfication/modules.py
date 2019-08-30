@@ -330,3 +330,39 @@ def label_smoothing(inputs, epsilon=0.1):
     
 
             
+def BME_cut(seq, label):
+    '''
+    Tokenization with sequence tagging of /B/E/S/M 
+    represent the word begin/end/single word/in the middle respectively.
+    Args:
+      inputs: seq:str, label:str.
+      output:List.
+
+    Examples:
+    >>> BME_cut('l i k e m e','B M M E B E')
+    like me
+    '''
+    if isinstance(seq, str):
+        seq = seq.split()
+    if isinstance(label, str):
+        label = label.split()
+
+    seq = seq + ['PAD']*(len(label) - len(seq))
+    assert len(seq) == len(label), "seq label is not compliable...{}, {}".format(seq, label)
+    tokens = []
+    i = 0
+    while i < len(seq):
+        if label[i] == 'S':
+            tokens.append(seq[i])
+        elif label[i] == 'B':
+            tmp = seq[i]
+            while i+1 < len(seq) and label[i+1] == 'M':
+                tmp += seq[i+1]
+                i += 1
+            if not i+1 < len(seq): break
+            #print(label[i+1], seq[i+1])
+            if label[i+1] == 'E':
+                tmp += seq[i+1]
+            tokens.append(tmp)
+        i += 1
+    return ' '.join(tokens)
