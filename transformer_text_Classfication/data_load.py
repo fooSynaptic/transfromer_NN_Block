@@ -9,7 +9,7 @@ import codecs
 import re
 from jieba import cut
 
- 
+  
 def load_vocabs():
     vocab = [line.split()[0] for line in codecs.open('./preprocessed/vocabs.txt', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=hp.min_cnt] #raw code is hp.mincnt
     word2idx = {word: idx for idx, word in enumerate(vocab)}
