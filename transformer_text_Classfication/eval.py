@@ -54,15 +54,12 @@ def eval(task_name):
                     sentences = Texts[i*hp.batch_size: (i+1)*hp.batch_size]
                     labels = Labels[i*hp.batch_size: (i+1)*hp.batch_size]
                      
-                    ### Autoregressive inference
                     
-                    for j in range(hp.maxlen):
-                        #_preds = sess.run(g.preds, {g.x: x, g.y: preds})
-                        preds = sess.run(g.preds, {g.x:x})
-                        predict_label.extend(preds)
+                    preds = sess.run(g.preds, {g.x:x})
+                    predict_label.extend(preds)
 
                     ### Write to file
-                    for sent, label, pred in zip(Texts, Labels, preds): # sentence-wise
+                    for sent, label, pred in zip(sentences, labels, preds): # sentence-wise
                         #got = " ".join(idx2word[idx] for idx in pred).split("</S>")[0].strip()
                         fout.write("- sent: " + sent +"\n")
                         fout.write('- label: {}, -predict: {} \n'.format(label, pred))
