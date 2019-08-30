@@ -52,6 +52,21 @@ For the labeling task the BLEU was implemented to evalate the model. Our model a
 # ***Second - the transformer feature extraction block***
 - you may find the code in `./transformer_text_Classfication`, codes about preprocessing and training as well as evaluation locate in this path. And the wrappers usage are similar to encoder-decoder architecture.
 
+# result of chinese sentences classfication(char-level)
+```
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99       992
+           1       1.00      0.99      0.99       980
+
+   micro avg       0.99      0.99      0.99      1972
+   macro avg       0.99      0.99      0.99      1972
+weighted avg       0.99      0.99      0.99      1972
+
+Done
+```
+
+
 # Ref
 
 -  https://github.com/Kyubyong/transformer
