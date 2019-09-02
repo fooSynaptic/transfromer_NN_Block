@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-#/usr/bin/python2
-'''
-June 2017 by kyubyong park. 
-kbpark.linguist@gmail.com.
-https://www.github.com/kyubyong/transformer
-'''
-from __future__ import print_function
+#/usr/bin/python3
+
+
 import tensorflow as tf
 
-from hyperparams import Hyperparams as hp
-from data_load import get_batch_data, load_de_vocab, load_en_vocab
+from hyperparams import seq2seq_Hyperparams as hp
+from data_load import get_batch_data, load_en_vocab, load_zh_vocab
 from modules import *
 import os, codecs
 from tqdm import tqdm
@@ -28,14 +24,14 @@ class Graph():
             self.decoder_inputs = tf.concat((tf.ones_like(self.y[:, :1])*2, self.y[:, :-1]), -1) # 2:<S>
 
             # Load vocabulary    
-            de2idx, idx2de = load_de_vocab()
             en2idx, idx2en = load_en_vocab()
+            zh2idx, idx2zh = load_zh_vocab()
             
             # Encoder
             with tf.variable_scope("encoder"):
                 ## Embedding
                 self.enc = embedding(self.x, 
-                                      vocab_size=len(de2idx), 
+                                      vocab_size=len(en2idx), 
                                       num_units=hp.hidden_units, 
                                       scale=True,
                                       scope="enc_embed")
@@ -80,7 +76,7 @@ class Graph():
             with tf.variable_scope("decoder"):
                 ## Embedding
                 self.dec = embedding(self.decoder_inputs, 
-                                      vocab_size=len(en2idx), 
+                                      vocab_size=len(zh2idx), 
                                       num_units=hp.hidden_units,
                                       scale=True, 
                                       scope="dec_embed")
@@ -133,7 +129,7 @@ class Graph():
                         self.dec = feedforward(self.dec, num_units=[4*hp.hidden_units, hp.hidden_units])
                 
             # Final linear projection
-            self.logits = tf.layers.dense(self.dec, len(en2idx))
+            self.logits = tf.layers.dense(self.dec, len(zh2idx))
             self.preds = tf.to_int32(tf.arg_max(self.logits, dimension=-1))
             self.istarget = tf.to_float(tf.not_equal(self.y, 0))
             self.acc = tf.reduce_sum(tf.to_float(tf.equal(self.preds, self.y))*self.istarget)/ (tf.reduce_sum(self.istarget))
@@ -141,7 +137,7 @@ class Graph():
                 
             if is_training:  
                 # Loss
-                self.y_smoothed = label_smoothing(tf.one_hot(self.y, depth=len(en2idx)))
+                self.y_smoothed = label_smoothing(tf.one_hot(self.y, depth=len(zh2idx)))
                 self.loss = tf.nn.softmax_cross_entropy_with_logits(logits=self.logits, labels=self.y_smoothed)
                 self.mean_loss = tf.reduce_sum(self.loss*self.istarget) / (tf.reduce_sum(self.istarget))
                
@@ -156,8 +152,8 @@ class Graph():
 
 if __name__ == '__main__':                
     # Load vocabulary    
-    de2idx, idx2de = load_de_vocab()
     en2idx, idx2en = load_en_vocab()
+    zh2idx, idx2zh = load_zh_vocab()
     
     # Construct graph
     g = Graph("train"); print("Graph loaded")

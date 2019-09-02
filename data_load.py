@@ -1,73 +1,94 @@
 # -*- coding: utf-8 -*-
-#/usr/bin/python2
-'''
-June 2017 by kyubyong park. 
-kbpark.linguist@gmail.com.
-https://www.github.com/kyubyong/transformer
-'''
-from __future__ import print_function
-from hyperparams import Hyperparams as hp
+# /usr/bin/python3
+
+from hyperparams import seq2seq_Hyperparams as hp
 import tensorflow as tf
 import numpy as np
 import codecs
 import re
+import jieba
+from bs4 import BeautifulSoup as bs
 
-def load_de_vocab():
-    vocab = [line.split()[0] for line in codecs.open('./vocab_dir/zh.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=1] #raw code is hp.mincnt
+ 
+def load_en_vocab():
+    vocab = [line.split()[0] for line in codecs.open('./preprocessed/en.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=hp.min_cnt] 
     word2idx = {word: idx for idx, word in enumerate(vocab)}
     idx2word = {idx: word for idx, word in enumerate(vocab)}
     return word2idx, idx2word
 
-def load_en_vocab():
-    vocab = [line.split()[0] for line in codecs.open('./vocab_dir/en.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=1]
+def load_zh_vocab():
+    vocab = [line.split()[0] for line in codecs.open('./preprocessed/zh.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=hp.min_cnt]
     word2idx = {word: idx for idx, word in enumerate(vocab)}
     idx2word = {idx: word for idx, word in enumerate(vocab)}
     return word2idx, idx2word
 
 def create_data(source_sents, target_sents): 
-    de2idx, idx2de = load_de_vocab()
     en2idx, idx2en = load_en_vocab()
+    zh2idx, idx2zh = load_zh_vocab()
+    #max token numbers
+    max_token_num = max(len(en2idx.keys()), len(zh2idx.keys())) + 100
     
     # Index
     x_list, y_list, Sources, Targets = [], [], [], []
     for source_sent, target_sent in zip(source_sents, target_sents):
-        x = [de2idx.get(word, 1) for word in (source_sent + u" </S>").split()] # 1: OOV, </S>: End of Text
-        y = [en2idx.get(word, 1) for word in (target_sent + u" </S>").split()] 
-        if max(len(x), len(y)) <= hp.maxlen:
-            x_list.append(np.array(x))
-            y_list.append(np.array(y))
-            Sources.append(source_sent)
-            Targets.append(target_sent)
+        #the default source senteces is english and target sentences is chinese
+        x = [en2idx.get(word, max_token_num) for word in source_sent.split()[:hp.maxlen-5] + [u" </S>"]]
+        y = [zh2idx.get(word, max_token_num) for word in target_sent.split()[:hp.maxlen-5] + [u" </S>"]]
+        
+        x_list.append(np.array(x))
+        y_list.append(np.array(y))
+        Sources.append(source_sent)
+        Targets.append(target_sent)
     print('Demo: {}->\n{}'.format(Sources[0], Targets[0]))
     
     # Pad      
     X = np.zeros([len(x_list), hp.maxlen], np.int32)
     Y = np.zeros([len(y_list), hp.maxlen], np.int32)
     for i, (x, y) in enumerate(zip(x_list, y_list)):
+        #print(x, y, hp.maxlen, len(x), len(y))
         X[i] = np.lib.pad(x, [0, hp.maxlen-len(x)], 'constant', constant_values=(0, 0))
         Y[i] = np.lib.pad(y, [0, hp.maxlen-len(y)], 'constant', constant_values=(0, 0))
     
     return X, Y, Sources, Targets
 
-def load_train_data():
-    #de_sents = [re.sub("[^\s\p{Latin}']", "", line) for line in codecs.open(hp.source_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
-    #en_sents = [re.sub("[^\s\p{Latin}']", "", line) for line in codecs.open(hp.target_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
-    de_sents = [line for line in codecs.open(hp.source_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
-    en_sents = [line for line in codecs.open(hp.target_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
 
-    X, Y, Sources, Targets = create_data(de_sents, en_sents)
+def refine(line, tokenizer):
+    if tokenizer == 'jieba':
+        line = re.sub("[\s\p']", "", line)
+        return ' '.join(jieba.cut(line))
+    elif tokenizer == 'en':
+        line = re.sub("[^a-zA-Z]", " ", line)
+        return line
+    else:
+        raise Exception('Could not find tokenizer...') 
+
+def load_train_data():    
+    en_sents = [refine(line, tokenizer = 'en') \
+        for line in open(hp.source_train, 'r', encoding = 'utf-8').read().split("\n") \
+            if not line.startswith('<')]
+    zh_sents = [refine(line, tokenizer = 'jieba') \
+        for line in open(hp.target_train, 'r', encoding = 'utf-8').read().split("\n") \
+            if not line.startswith('<')]
+
+    X, Y, Sources, Targets = create_data(en_sents, zh_sents)
     return X, Y
     
 def load_test_data():
-    def _refine(line):
-        #line = re.sub("<[^>]+>", "", line)
-        #line = re.sub("[^\s\p{Latin}']", "", line) 
-        return line.strip()
-    
-    de_sents = [_refine(line) for line in codecs.open(hp.source_test, 'r', 'utf-8').read().split("\n") if line and line[:4] != "<seg"]
-    en_sents = [_refine(line) for line in codecs.open(hp.target_test, 'r', 'utf-8').read().split("\n") if line and line[:4] != "<seg"]
-        
-    X, Y, Sources, Targets = create_data(de_sents, en_sents)
+    def _parser(text):
+        return [x.text for x in bs(text).find_all('seg')]
+
+    '''
+    en_sents = [refine(line, tokenizer = 'en') \
+        for line in open(hp.source_test, 'r', encoding = 'utf-8').read().split("\n") \
+            if line.startswith('<seg id')]
+    zh_sents = [refine(line, tokenizer = 'jieba') \
+        for line in open(hp.target_test, 'r', encoding = 'utf-8').read().split("\n") \
+            if line.startswith('<seg id')]
+    '''
+    en_sents = [refine(line, tokenizer = 'en') for line in _parser(open(hp.source_test).read().strip())]
+    zh_sents = [refine(line, tokenizer = 'jieba') for line in _parser(open(hp.target_test).read().strip())]
+
+    X, Y, Sources, Targets = create_data(en_sents, zh_sents)
     return X, Sources, Targets # (1064, 150)
 
 def get_batch_data():
@@ -88,7 +109,7 @@ def get_batch_data():
     x, y = tf.train.shuffle_batch(input_queues,
                                 num_threads=8,
                                 batch_size=hp.batch_size, 
-                                capacity=hp.batch_size*64,   
+                                capacity=hp.batch_size*64, 
                                 min_after_dequeue=hp.batch_size*32, 
                                 allow_smaller_final_batch=False)
     
