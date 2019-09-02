@@ -1,9 +1,9 @@
 # transfromer_NN_Block
 We are doing this to implemented transformer as a neural network building block to overcome several task in NLP research, this rep follow the implementation if [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
 
-This rep fullfilled two tasks:
-- The seq2seq text generation, we try to implemented transformer in a conventional problem in NLP-Words segment(Chinese).
-- The NMT problem track on zh-en machine translation.
+This rep achieved three tasks:
+- The seq2seq text generation, we try to implemented transformer in a conventional problem in NLP - Words segmentation(Chinese).
+- The NMT problem track on Chinese-English machine translation.
 - The text feature encode architecture for classfication.
 
 
@@ -25,13 +25,9 @@ conventional sentence tokenize method - **/B/E/S/M** (represent the word begin/e
 # eval
 - Run `python eval.py`.
 
-For the labeling task the BLEU was implemented to evalate the model. Our model accieved the Bleu score nearly reach to the 80.
-
-`Bleu Score = 79.347268988273`(See the `./result/model_epoch_20_gs_1560`)
-
 
 # ***Second - zh-en NMT***
-- the train and test data was from `Web Inventory of Transcribed and Translated Talks`-**WIT3**, we train a model for English-Chinese translation model.
+- the train and test data was from `Web Inventory of Transcribed and Translated Talks`-**WIT3**, we train a model for English-Chinese translation model(![data source](https://wit3.fbk.eu/mt.php?release=2015-01)).
 - test Result:
   ![NMT result](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/NMT_res_BLEU.png)
 
