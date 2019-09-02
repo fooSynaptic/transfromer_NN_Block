@@ -4,7 +4,7 @@ jobs:
         working_directory: ~/transfromer_NN_Block
         docker:
             - image: circleci/python:3.5
-        resource_class: small
+        resource_class: middle
         parallelism: 4
         steps:
             - checkout
@@ -12,7 +12,7 @@ jobs:
 
     text_classfication:
         working_directory: ~/transfromer_NN_Block/transformer_text_Classfication
-        resource_class: small
+        resource_class: middle
         parallelism: 4
         docker:
             - image: circleci/python:3.5
