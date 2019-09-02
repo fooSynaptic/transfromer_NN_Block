@@ -50,8 +50,9 @@ For the labeling task the BLEU was implemented to evalate the model. Our model a
 
 ```
 
-# ***Second NMT***
+# ***Second - NMT***
 - test Result:
+  ![NMT result](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/NMT_res_BLEU.png)
 
 
 
