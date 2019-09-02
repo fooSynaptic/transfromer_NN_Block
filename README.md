@@ -1,10 +1,10 @@
 # transfromer_NN_Block
-We are doing this to implemented transformer as a neural network building block to overcome several task in NLP research, this rep follow the implementation if [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
+We are doing this to implemented transformer as a neural network building block to overcome several task in NLP research, this rep follow the raw paper realization of [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
 
 This rep achieved three tasks:
-- The seq2seq text generation, we try to implemented transformer in a conventional problem in NLP - Words segmentation(Chinese).
+- The seq2seq text generation, we try to implemented transformer solve a conventional problem in NLP - Words segmentation(Chinese).
 - The NMT problem track on Chinese-English machine translation.
-- The text feature encode architecture for classfication.
+- The language model encoder architecture for Text-classfication.
 
 
 
@@ -14,16 +14,16 @@ Please run `pip install -r requirements.txt` first.
 
 # ***First- the encoder-decoder architecture***
 # train
--The aim of This rep is train a sequence labeling model with **Transformer**. I follow the 
+-The aim is train a sequence labeling model with **Transformer**. We follow the 
 conventional sentence tokenize method - **/B/E/S/M** (represent the word begin/end/single word/in the middle respectively).
 
-- I used some labeled chinese Ducuments to train my model. The raw data presented in the `./dataset` dir. Or you may want use the `prepro.py` to preprocess the raw data.
+- We used some labeled chinese Ducuments to train my model. The raw data presented in the `./transformer_jieba/dataset` dir. Or you may want use the `./transformer_jieba/prepro.py` to preprocess the raw data.
 
 - Just use the `python train.py` to train the model.
 
 
 # eval
-- Run `python eval.py`.
+- Run `python eval.py`, We achieved the BLEU score nearly 80.
 
 
 # ***Second - zh-en NMT***
