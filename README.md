@@ -30,10 +30,10 @@ For the labeling task the BLEU was implemented to evalate the model. Our model a
 `Bleu Score = 79.347268988273`(See the `./result/model_epoch_20_gs_1560`)
 
 
-# ***Second - NMT***
+# ***Second - zh-en NMT***
+- the train and test data was from `Web Inventory of Transcribed and Translated Talks`-**WIT3**, we train a model for English-Chinese translation model.
 - test Result:
   ![NMT result](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/NMT_res_BLEU.png)
-
 
 
 
