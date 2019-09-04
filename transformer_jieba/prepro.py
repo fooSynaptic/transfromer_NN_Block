@@ -32,7 +32,7 @@ def make_vocab(fpath, fname, tokenizer = None):
         text = re.sub("[\s\p']", "", text)
         words = jieba.cut(text)
     elif tokenizer == None:
-        text = re.sub("[^a-zA-Z]", " ", text)
+        #text = re.sub("[^a-zA-Z]", " ", text)
         words = text.split()
     else:
         raise Exception('Could not find tokenizer...')
@@ -50,6 +50,6 @@ def make_vocab(fpath, fname, tokenizer = None):
 
 
 if __name__ == '__main__':
-    make_vocab(hp.source_train, "en.vocab.tsv")
-    make_vocab(hp.target_train, "zh.vocab.tsv", tokenizer = 'jieba')
+    make_vocab(hp.source_train, "src.vocab.tsv")
+    make_vocab(hp.target_train, "tgt.vocab.tsv", tokenizer = None)
     print("Done")

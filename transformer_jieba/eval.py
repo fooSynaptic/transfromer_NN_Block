@@ -10,10 +10,11 @@ import numpy as np
 from hyperparams import seq2seq_Hyperparams as hp
 from data_load import load_en_vocab, load_zh_vocab, load_train_data, load_test_data, create_data
 from train import Graph
-#from nltk.translate.bleu_score import corpus_bleu
+
 import argparse
 from modules import bleu
 import math
+from modules import cut
 
 
 
@@ -65,13 +66,13 @@ def eval(task_name):
                     ### Write to file
                     for source, target, pred in zip(sources, targets, preds): # sentence-wise
                         #print('Inspecting:', source, target, pred)
-                        got = " ".join(idx2zh[idx] for idx in pred).split("。", 2)[0].strip() + ' 。'
+                        #got = " ".join(idx2zh[idx] for idx in pred).split("。", 2)[0].strip() + ' 。'
                         #got = ''.join(idx2zh[idx] for idx in pred).split('。')[0].strip() 
+                        got = ' '.join(idx2zh[idx] for idx in pred).split('</S>')[0]
                         if task_name == 'jieba':
                             fout.write("- source: " + source +"\n")
-                            if len(got) < len(target): got += target[len(got):]
-                            fout.write("- expected: " + cut(source, target) + "\n")
-                            fout.write("- got: " + cut(source, got) + "\n\n")
+                            fout.write("- expected: " + ' '.join(cut(source, target)) + "\n")
+                            fout.write("- got: " + ' '.join(cut(source, got)) + "\n\n")
                             fout.flush()
                         else:
                             fout.write("- source: " + source +"\n")
@@ -79,19 +80,18 @@ def eval(task_name):
                             fout.write("- got: " + got + "\n\n")
                             fout.flush()
                         
-                        # bleu score
-                        ref = target.split()
-                        hypothesis = got.split()
-                        print(ref, '\n', hypothesis)
-                        if len(ref) > 2 and len(hypothesis) > 2:
-                            scores.append(bleu(hypothesis, ref, 2))
-                            #list_of_refs.append([ref])
-                            #hypotheses.append(hypothesis)
+
+                        # accumlate accuracty
+                        ref = cut(source, target)
+                        hypothesis = cut(source, got)
+                        acc = len([x for x in hypothesis if x in ref])/len(ref)
+                        scores.append(min(1, acc))
+ 
                                  
 
                 ## Calculate bleu score
                 #score = corpus_bleu(list_of_refs, hypotheses)
-                fout.write("Bleu Score = " + str(100*(sum(scores)/len(scores))))
+                fout.write("Tokenization Accuracy = " + str(100*(sum(scores)/len(scores))))
 
                                           
 if __name__ == '__main__':

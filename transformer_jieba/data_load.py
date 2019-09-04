@@ -11,13 +11,13 @@ from bs4 import BeautifulSoup as bs
 
  
 def load_en_vocab():
-    vocab = [line.split()[0] for line in codecs.open('./preprocessed/en.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=hp.min_cnt] 
+    vocab = [line.split()[0] for line in codecs.open('./preprocessed/src.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=hp.min_cnt] 
     word2idx = {word: idx for idx, word in enumerate(vocab)}
     idx2word = {idx: word for idx, word in enumerate(vocab)}
     return word2idx, idx2word
 
 def load_zh_vocab():
-    vocab = [line.split()[0] for line in codecs.open('./preprocessed/zh.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=hp.min_cnt]
+    vocab = [line.split()[0] for line in codecs.open('./preprocessed/tgt.vocab.tsv', 'r', 'utf-8').read().splitlines() if int(line.split()[1])>=hp.min_cnt]
     word2idx = {word: idx for idx, word in enumerate(vocab)}
     idx2word = {idx: word for idx, word in enumerate(vocab)}
     return word2idx, idx2word
@@ -32,8 +32,8 @@ def create_data(source_sents, target_sents):
     x_list, y_list, Sources, Targets = [], [], [], []
     for source_sent, target_sent in zip(source_sents, target_sents):
         #the default source senteces is english and target sentences is chinese
-        x = [en2idx.get(word, max_token_num) for word in source_sent.split()[:hp.maxlen-5] + [u" </S>"]]
-        y = [zh2idx.get(word, max_token_num) for word in target_sent.split()[:hp.maxlen-5] + [u" </S>"]]
+        x = [en2idx.get(word, 1) for word in source_sent.split()[:hp.maxlen-5] + [u" </S>"]]
+        y = [zh2idx.get(word, 1) for word in target_sent.split()[:hp.maxlen-5] + [u" </S>"]]
         
         x_list.append(np.array(x))
         y_list.append(np.array(y))
@@ -63,10 +63,10 @@ def refine(line, tokenizer):
         raise Exception('Could not find tokenizer...') 
 
 def load_train_data():    
-    en_sents = [refine(line, tokenizer = 'en') \
+    en_sents = [line.strip() \
         for line in open(hp.source_train, 'r', encoding = 'utf-8').read().split("\n") \
             if not line.startswith('<')]
-    zh_sents = [refine(line, tokenizer = 'jieba') \
+    zh_sents = [line.strip() \
         for line in open(hp.target_train, 'r', encoding = 'utf-8').read().split("\n") \
             if not line.startswith('<')]
 
@@ -77,16 +77,14 @@ def load_test_data():
     def _parser(text):
         return [x.text for x in bs(text).find_all('seg')]
 
-    '''
-    en_sents = [refine(line, tokenizer = 'en') \
+
+    en_sents = [line.strip() \
         for line in open(hp.source_test, 'r', encoding = 'utf-8').read().split("\n") \
-            if line.startswith('<seg id')]
-    zh_sents = [refine(line, tokenizer = 'jieba') \
+            if not line.startswith('<seg id')]
+    zh_sents = [line.strip() \
         for line in open(hp.target_test, 'r', encoding = 'utf-8').read().split("\n") \
-            if line.startswith('<seg id')]
-    '''
-    en_sents = [refine(line, tokenizer = 'en') for line in _parser(open(hp.source_test).read().strip())]
-    zh_sents = [refine(line, tokenizer = 'jieba') for line in _parser(open(hp.target_test).read().strip())]
+            if not line.startswith('<seg id')]
+
 
     X, Y, Sources, Targets = create_data(en_sents, zh_sents)
     return X, Sources, Targets # (1064, 150)
