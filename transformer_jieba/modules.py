@@ -344,4 +344,30 @@ def bleu(pred_tokens, label_tokens, k):
     return score
 
 
-            
+def cut(seq, label):
+    '''Input the char and label, return the tokenization tokens'''
+    if isinstance(seq, str):
+        seq = seq.split()
+    if isinstance(label, str):
+        label = label.split()
+
+    seq = seq + ['PAD']*(len(label) - len(seq))
+    assert len(seq) == len(label), "seq label is not compliable...{}, {}".format(seq, label)
+    tokens = []
+    i = 0
+    while i < len(seq):
+        if label[i] == 'S':
+            tokens.append(seq[i])
+        elif label[i] == 'B':
+            tmp = seq[i]
+            while i+1 < len(seq) and label[i+1] == 'M':
+                tmp += seq[i+1]
+                i += 1
+            if not i+1 < len(seq): break
+
+            if label[i+1] == 'E':
+                tmp += seq[i+1]
+            tokens.append(tmp)
+        i += 1
+    return ' '.join(tokens)
+
