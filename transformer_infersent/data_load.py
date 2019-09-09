@@ -43,7 +43,7 @@ def create_data(s1, s2, labels):
     for i, x in enumerate(x2_list):
         X2[i] = np.lib.pad(x, [0, hp.maxlen-len(x)], 'constant', constant_values=(0, 0))
 
-        
+    labels = [int(x) for x in labels]    
     return X1, X2, np.array(labels)
 
 
@@ -57,9 +57,9 @@ def _refine(line):
 
 def load_train_data(tokenizer = None):
     if tokenizer == None:
-        corpus = [line.strip().split('<>') for line in codecs.open(hp.trainset, 'r', 'utf-8').readlines()]
+        corpus = [line.strip().split('<>') for line in codecs.open(hp.trainset, 'r', 'utf-8').readlines()[:100000]]
         s1, s2, labels = [_refine(line[1]) for line in corpus], [_refine(line[2]) for line in corpus], \
-        [line[0] for line in corpus]
+        [int(line[0]) for line in corpus]
 
     X1, X2, Label = create_data(s1, s2, labels)
     return X1, X2, Label
