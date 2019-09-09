@@ -1,10 +1,11 @@
 # transfromer_NN_Block
 We are doing this to implemented transformer as a neural network building block to overcome several task in NLP research, this rep follow the raw paper realization of [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
 
-This rep achieved three tasks:
+This rep achieved **Several** tasks:
 - The seq2seq text generation, we try to implemented transformer solve a conventional problem in NLP - Words segmentation(Chinese).
-- The NMT problem track on Chinese-English machine translation.
-- The language model encoder architecture for Text-classfication.
+- [The NMT problem track on Chinese-English machine translation.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/en-zh_NMT)
+- [The language model encoder architecture for Text-classfication.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_text_Classfication)
+- [The sentence entailement task](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_infersent)
 
 
 
