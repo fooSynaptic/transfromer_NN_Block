@@ -5,7 +5,7 @@ This rep achieved **Several** tasks:
 - The seq2seq text generation, we try to implemented transformer solve a conventional problem in NLP - Words segmentation(Chinese).
 - [The NMT problem track on Chinese-English machine translation.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/en-zh_NMT)
 - [The language model encoder architecture for Text-classfication.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_text_Classfication)
-- [The sentence entailement task](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_infersent)
+- [The sentence entailement task.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_infersent)
 
 
 
@@ -13,7 +13,7 @@ This rep achieved **Several** tasks:
 Please run `pip install -r requirements.txt` first.
 
 
-# ***First- the encoder-decoder architecture***
+# ***First- the encoder-decoder architectures.***
 # train
 -The aim is train a sequence labeling model with **Transformer**. We follow the 
 conventional sentence tokenize method - **/B/E/S/M** (represent the word begin/end/single word/in the middle respectively).
