@@ -6,7 +6,7 @@
 
 Experiment result:
 - accuracy:
-![train accuracy](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/images/train_accuracy.png)
+![train accuracy](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/images/infersent_train_accuracy.png)
 
 - loss:
-![train loss](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/images/train_loss.png)
+![train loss](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/images/infersent_train_loss.png)
