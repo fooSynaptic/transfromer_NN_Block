@@ -1,6 +1,8 @@
 # transfromer_NN_Block
 We are doing this to implemented transformer as a neural network building block to overcome several task in NLP research, this rep follow the raw paper realization of [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
 
+[![CircleCI](https://circleci.com/gh/huggingface/pytorch-transformers.svg?style=svg)](https://circleci.com/gh/fooSynaptic/transfromer_NN_Block)
+
 This rep achieved **Several** tasks:
 - [The seq2seq text generation, we try to implemented transformer solve a conventional problem in NLP - Words segmentation(Chinese).](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_jieba)
 - [The NMT problem track on Chinese-English machine translation with WIT3 datasets.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/en-zh_NMT)
