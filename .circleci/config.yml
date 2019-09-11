@@ -1,7 +1,7 @@
 version: 2
 jobs:
     seq2seq:
-        working_directory: ~/transfromer_NN_Block
+        working_directory: ~/transfromer_NN_Block/en-zh_NMT
         docker:
             - image: circleci/python:3.5
         resource_class: middle
@@ -19,6 +19,36 @@ jobs:
         steps:
             - checkout
             - run: sudo pip install -r requirements.txt
+
+    sentences_entailments:
+        working_directory: ~/transfromer_NN_Block/transformer_infersent
+        resource_class: middle
+        parallelism: 4
+        docker:
+            - image: circleci/python:3.5
+        steps:
+            - checkout
+            - run: sudo pip install -r requirements.txt
+            - run: wget https://nlp.stanford.edu/projects/snli/snli_1.0.zip && unzip snli_1.0.zip
+            - run: python data_prepare.py && python prepro.py
+            - run: python train.py
+            - run: python eval.py --task infersent
+
+    transformer_jieba:
+        working_directory: ~/transfromer_NN_Block/transformer_jieba
+        docker:
+            - image: circleci/python:3.5
+        resource_class: middle
+        parallelism: 4
+        steps:
+            - checkout
+            - run: sudo pip install -r requirements.txt
+            - run: python data_pre.py
+            - run: python prepro.py
+            - run: python train.py
+            - run: python eval.py --task infersent
+
+
 
 workflows:
   version: 2
