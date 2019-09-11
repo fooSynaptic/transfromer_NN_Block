@@ -1,6 +1,6 @@
 ***We implemented a sentences entailment inference task with transformer***
 ---
-**Data source** (standord SNLI)[https://nlp.stanford.edu/projects/snli/snli_1.0.zip]
+**Data source** [standord SNLI](https://nlp.stanford.edu/projects/snli/snli_1.0.zip)
 
 - *Download source data and unzip* : `wget https://nlp.stanford.edu/projects/snli/snli_1.0.zip && unzip snli_1.0.zip`
 - *preprocess data*: `python data_prepare.py && python prepro.py`
