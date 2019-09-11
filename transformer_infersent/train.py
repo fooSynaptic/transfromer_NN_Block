@@ -18,6 +18,7 @@ class Graph():
                 self.x1, self.x2, self.y, self.num_batch = get_batch_data() 
                 #self.x, self.label, self.num_batch = get_batch_data() # (N, T)
                 #self.y = tf.one_hot(self.label, depth = hp.n_class)
+
             else: # inference
                 self.x1 = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
                 self.x2 = tf.placeholder(tf.int32, shape = (None, hp.maxlen))
@@ -25,6 +26,7 @@ class Graph():
                 #self.y = tf.placeholder(tf.int32, shape = (None, hp.n_class))
                 #self.y = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
 
+            self.l2_loss = tf.constant(0.0)
             # define decoder inputs
             #for sentence relationship learning task we want to encoder sent1 to e1, then decoder(e1 + sent2)
             #to get a more sementic relationship across corpus
@@ -158,16 +160,36 @@ class Graph():
             
 
             # Final linear projection
-            print(self.dec.shape)
-            self.logits = tf.layers.dense(self.enc, 64)
+            self.logits = tf.add(self.enc, tf.multiply(self.enc, self.dec))
+            #self.logits = self.enc
+
+            '''
+            self.logits = tf.reduce_sum(self.logits, axis=2) #4, 500
+            self.logits = tf.layers.batch_normalization(self.logits, True)
+            self.logits = tf.contrib.layers.dropout(self.logits, hp.dropout_keep_prob)
+            '''
+            #self.logits = tf.layers.dense(self.logits, 64, activation = 'tanh')
             self.logits = tf.layers.flatten(self.logits)
-            #self.logits = tf.contrib.layers.dropout(self.logits, 0.55)
-            self.logits = tf.layers.dense(self.logits, 2)
-            self.preds = tf.to_int32(tf.arg_max(self.logits, dimension = -1))
+            #self.logits = tf.reshape(self.logits, [64, -1])
+            self.h_drop = tf.nn.dropout(self.logits, hp.dropout_keep_prob)
+
+            with tf.name_scope("output_logit"):
+              W = tf.get_variable(
+                  "W",
+                  shape=[hp.maxlen * hp.hidden_units, len(hp.relations)],
+                  initializer=tf.contrib.layers.xavier_initializer())
+
+              b = tf.Variable(tf.constant(0.1, shape=[len(hp.relations)]), name="b")
+              self.l2_loss += tf.nn.l2_loss(W)
+              self.l2_loss += tf.nn.l2_loss(b)
+              self.logits = tf.nn.xw_plus_b(self.h_drop, W, b, name="logit")
+              #self.preds = tf.argmax(self.scores, 1, name="predictions")
+
+            self.preds = tf.to_int32(tf.argmax(self.logits, dimension = -1))
 
                 
             if is_training:  
-                self.y_hotting = tf.one_hot(self.y, depth = 2)
+                self.y_hotting = tf.one_hot(self.y, depth = len(hp.relations))
 
                 #Accuracy
                 self.cpl = tf.equal(tf.convert_to_tensor(self.y, tf.int32), self.preds)
@@ -178,7 +200,7 @@ class Graph():
                 # Loss
                 #self.y_smoothed = label_smoothing(self.y_hotting)
                 self.loss = tf.nn.softmax_cross_entropy_with_logits(logits=self.logits, labels=self.y_hotting)
-                self.mean_loss = tf.reduce_sum(self.loss)/tf.reduce_sum(self.y_hotting)
+                self.mean_loss = (tf.reduce_sum(self.loss) + self.l2_loss*hp.reg_lambda)/tf.reduce_sum(self.y_hotting)
 
                 # Training Scheme
                 self.global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -208,7 +230,10 @@ if __name__ == '__main__':
             for step in tqdm(range(g.num_batch), total=g.num_batch, ncols=70, leave=False, unit='b'):
                 sess.run(g.train_op)
                 acc, los = sess.run(g.acc), sess.run(g.mean_loss)
+                #print(acc, los)
                 rec.write('{}\t{}\n'.format(acc, los))
+                #print(sess.run(g.preds), sess.run(g.y))
+                #print(sess.run(tf.equal(tf.convert_to_tensor(g.y, tf.int32), g.preds)))
                 
             gs = sess.run(g.global_step)   
             sv.saver.save(sess, hp.logdir + '/model_epoch_%02d_gs_%d' % (epoch, gs))

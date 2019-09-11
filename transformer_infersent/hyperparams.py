@@ -57,21 +57,19 @@ class feature_Block_Hyperparams:
 class infersent_Block_Hyperparams:
     '''Hyperparameters'''
     # data
-    trainset = './datasets/train.csv'
-    testset = './datasets/test.csv' 
-    s1 = './datasets/asr_corpus/first.txt'
-    s2 = './datasets/asr_corpus/next.txt'
-    #label = './datasets/asr_corpus/rand.txt'
+    trainset = './opensrc_dta/train.csv'
+    testset = './opensrc_dta/test.csv' 
+
 
     # training
-    relations = {'entailment': 0, 'contradiction': 1, 'neutral': 2}
+    relations = {'entailment': '0', 'contradiction': '1', 'neutral': '2'}
 
     batch_size = 64 # alias = N
     lr = 0.0001 # learning rate. In paper, learning rate is adjusted to the global step.
     logdir = 'infersent_model_dir' # log directory
     
     # model
-    maxlen = 100 # Maximum number of words in a sentence. alias = T.
+    maxlen = 24 # Maximum number of words in a sentence. alias = T.
                 # Feel free to increase this if you are ambitious.
     min_cnt = 3 # words whose occurred less than min_cnt are encoded as <UNK>.
     hidden_units = 512 # alias = C
@@ -81,8 +79,8 @@ class infersent_Block_Hyperparams:
     dropout_rate = 0.1
     sinusoid = False # If True, use sinusoid. If false, positional embedding.
     #n_class = 2
-
-
+    dropout_keep_prob = 0.55
+    reg_lambda = 0.1
 
 
 

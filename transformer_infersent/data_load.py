@@ -28,10 +28,11 @@ def create_data(s1, s2, labels):
     x1_list, x2_list, Sources, Targets = [], [], [], []
     for sent1, sent2 in zip(s1, s2):
         x1 = [word2idx.get(word, 1) for word in (sent1 + u" </S>").split()[:hp.maxlen-5]] # 1: OOV, </S>: End of Text
-        x2 = [word2idx.get(word, 1) for word in (sent1 + u" </S>").split()[:hp.maxlen-5]] 
+        x2 = [word2idx.get(word, 1) for word in (sent2 + u" </S>").split()[:hp.maxlen-5]] 
 
         x1_list.append(np.array(x1))
         x2_list.append(np.array(x2))
+    print('demo', x1_list[0], x2_list[0], labels[0])
 
     # Pad      
     X1 = np.zeros([len(x1_list), hp.maxlen], np.int32)
@@ -44,22 +45,32 @@ def create_data(s1, s2, labels):
         X2[i] = np.lib.pad(x, [0, hp.maxlen-len(x)], 'constant', constant_values=(0, 0))
 
     labels = [int(x) for x in labels]    
+    
     return X1, X2, np.array(labels)
 
 
-def _refine(line):
+def _refine(line, lan = 'zh'):
     #line = re.sub("[^\s\p{Latin}']", "", line) 
-    line = re.sub("[\s\p']", "", line)
-    line = re.sub(r'[0-9]+', 'n', line)
-    line = re.sub(r'[a-zA-Z]+', 'α', line)
-    return ' '.join(list(line))
+    if lan == 'zh':
+        line = re.sub("[\s\p']", "", line)
+        line = re.sub(r'[0-9]+', 'n', line)
+        line = re.sub(r'[a-zA-Z]+', 'α', line)
+        line = jieba.cut(line)
+        return ' '.join(list(line))
+    elif lan == 'en':
+        line = re.sub("[^a-zA-Z]", " ", line)
+        return line
+
+    else:
+        raise Exception('Havn\'t specified language!')
+        return
+
 
 
 def load_train_data(tokenizer = None):
-    if tokenizer == None:
-        corpus = [line.strip().split('<>') for line in codecs.open(hp.trainset, 'r', 'utf-8').readlines()[:100000]]
-        s1, s2, labels = [_refine(line[1]) for line in corpus], [_refine(line[2]) for line in corpus], \
-        [int(line[0]) for line in corpus]
+    corpus = [line.strip().split('<>') for line in codecs.open(hp.trainset, 'r', 'utf-8').readlines()[:100000]]
+    s1, s2, labels = [_refine(line[1], lan = 'en') for line in corpus], [_refine(line[2], lan = 'en') for line in corpus], \
+    [int(line[0]) for line in corpus]
 
     X1, X2, Label = create_data(s1, s2, labels)
     return X1, X2, Label
@@ -67,10 +78,9 @@ def load_train_data(tokenizer = None):
 
 
 def load_test_data(tokenizer = None):
-    if tokenizer == None:
-        corpus = [line.strip().split('<>') for line in codecs.open(hp.testset, 'r', 'utf-8').readlines()]
-        s1, s2, labels = [_refine(line[1]) for line in corpus], [_refine(line[2]) for line in corpus], \
-        [line[0] for line in corpus] 
+    corpus = [line.strip().split('<>') for line in codecs.open(hp.testset, 'r', 'utf-8').readlines()]
+    s1, s2, labels = [_refine(line[1], lan = 'en') for line in corpus], [_refine(line[2], lan = 'en') for line in corpus], \
+    [line[0] for line in corpus] 
 
     X1, X2, Label = create_data(s1, s2, labels)
     return X1, X2, Label
@@ -98,6 +108,5 @@ def get_batch_data():
                                 capacity=hp.batch_size*64, 
                                 min_after_dequeue=hp.batch_size*32, 
                                 allow_smaller_final_batch=False)
-    
     return x1, x2, label, num_batch # (N, T), (N, T), ()
 

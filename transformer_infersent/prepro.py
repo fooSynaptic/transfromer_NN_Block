@@ -14,7 +14,7 @@ from collections import Counter
 #import tokenize
 import jieba
 
-def make_vocab(fpath, fname):
+def make_vocab(fpath, fname, lan = 'zh'):
     '''Constructs vocabulary.
     
     Args:
@@ -23,18 +23,26 @@ def make_vocab(fpath, fname):
     
     Writes vocabulary line by line to `preprocessed/fname`
     ''' 
-    texts = []
-    for path in fpath:
-        text = [x.strip() for x in codecs.open(path, 'r', 'utf-8').readlines()]
-        texts.extend(text)
+    if lan == 'zh':
+        texts = []
+        for path in fpath:
+            text = [x.strip() for x in codecs.open(path, 'r', 'utf-8').readlines()]
+            texts.extend(text)
 
-    corpus = ''.join(texts)
-    corpus = re.sub("[\s\p']", "", corpus)
-    #replace numbers with NUM
-    corpus = re.sub(r'[0-9]+', 'n', corpus)
-    corpus = re.sub(r'[a-zA-Z]+', 'α', corpus)
-    #words = jieba.cut(corpus)
-    words = list(corpus)
+
+        corpus = ''.join(texts)
+        corpus = re.sub("[\s\p']", "", corpus)
+        #replace numbers with NUM
+        corpus = re.sub(r'[0-9]+', 'n', corpus)
+        corpus = re.sub(r'[a-zA-Z]+', 'α', corpus)
+        words = jieba.cut(corpus)
+    elif lan == 'en':
+        texts = []
+        for path in fpath:
+            texts.extend([x.strip().split('<>', 1)[1] for x in codecs.open(path, 'r', 'utf-8').readlines()])
+        corpus = ' '.join(texts)
+        corpus = re.sub(r"[^a-zA-Z]", " ", corpus)
+        words = corpus.split()
 
     word2cnt = Counter(words)
     if not os.path.exists('preprocessed'): os.mkdir('preprocessed')
@@ -47,5 +55,5 @@ def make_vocab(fpath, fname):
 
 
 if __name__ == '__main__':
-    make_vocab([hp.s1, hp.s2], "vocabs.txt")
+    make_vocab([hp.trainset, hp.testset], "vocabs.txt", lan = 'en')
     print("Done")
