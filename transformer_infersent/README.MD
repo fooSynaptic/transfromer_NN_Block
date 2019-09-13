@@ -13,3 +13,16 @@ Experiment result:
 
 - loss:
 ![train loss](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/images/infersent_train_SNLI_loss.png)
+
+- eval result:
+```
+              precision    recall  f1-score   support
+
+           0       0.79      0.79      0.79      3358
+           1       0.79      0.79      0.79      3226
+           2       0.72      0.72      0.72      3208
+
+    accuracy                           0.77      9792
+   macro avg       0.77      0.77      0.77      9792
+weighted avg       0.77      0.77      0.77      9792
+```
