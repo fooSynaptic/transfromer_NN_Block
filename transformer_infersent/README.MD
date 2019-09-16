@@ -18,11 +18,11 @@ Experiment result:
 ```
               precision    recall  f1-score   support
 
-           0       0.79      0.79      0.79      3358
-           1       0.79      0.79      0.79      3226
-           2       0.72      0.72      0.72      3208
+           0       0.82      0.76      0.79      3358
+           1       0.77      0.80      0.79      3226
+           2       0.70      0.73      0.72      3208
 
-    accuracy                           0.77      9792
-   macro avg       0.77      0.77      0.77      9792
-weighted avg       0.77      0.77      0.77      9792
+    accuracy                           0.76      9792
+   macro avg       0.76      0.76      0.76      9792
+weighted avg       0.76      0.76      0.76      9792
 ```
