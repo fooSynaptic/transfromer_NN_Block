@@ -8,6 +8,7 @@ This rep achieved **Several** tasks:
 - [The NMT problem track on Chinese-English machine translation with WIT3 datasets.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/en-zh_NMT)
 - [The language model encoder architecture for Text-classfication.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_text_Classfication)
 - [The sentence entailement task experiment with stanford SNLI datasets.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_infersent)
+- [Updated reading comprehension task.](https://github.com/fooSynaptic/transfromer_NN_Block/tree/master/transformer_RC)
 
 
 
