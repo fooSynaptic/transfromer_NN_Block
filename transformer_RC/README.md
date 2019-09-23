@@ -3,3 +3,7 @@ reading comprehension model by transformer
 
 
 - train Loss:![loss](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/images/rc_model_train_loss.png)
+
+- You may want to inspect the predict result in [here](https://github.com/fooSynaptic/transfromer_NN_Block/blob/master/results/rc_model_epoch_50_gs_10500)
+
+final_reuslt: **`Rouge-L:0.2651. BLEU_1: 0.36.`**
