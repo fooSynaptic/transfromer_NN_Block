@@ -9,6 +9,8 @@ from modules import *
 import os, codecs
 from tqdm import tqdm
 
+#import keras
+
 
 # custom wrapper
 from layers.basic_rnn import rnn
@@ -50,7 +52,6 @@ class Graph():
             pad_dim = hp.p_maxlen - hp.q_maxlen
             pad_ = tf.zeros([tf.shape(self.q)[0], pad_dim], dtype = self.q.dtype)
             self.decoder_inputs = tf.concat((pad_, tf.ones_like(self.q[:, :1])*2, self.q[:, :-1]), -1) # 2:<S>
-
 
 
             # Load vocabulary    
@@ -106,7 +107,8 @@ class Graph():
 
 
             self.p_q_encodes = tf.divide(tf.add(self.p_fixed_q_encodes, self.p_encodes), len(concated_features))
-
+            #normalization
+            self.p_q_encodes = normalize(self.p_q_encodes)
 
 
             ## Blocks
@@ -186,35 +188,49 @@ class Graph():
                                                         causality=False,
                                                         scope="vanilla_attention")
                         
+
                         ## Feed Forward
                         self.dec = feedforward(self.dec, num_units=[4*hp.hidden_units, hp.hidden_units])
             
 
             # fix paragraph tensor with self.dec
-            self.p_encodes = tf.add(self.p_encodes, tf.multiply(self.p_encodes, self.dec))
-          
-
-
-            #self.logits = self.dec
-
-            #main part , we want to compute three loss
-            #- 1 the loss of start position: softmax of content[:gama]
-            #- 2 the loss the end position: softmax of content[:gama]
-            #- 3 the loss the golden map: softmax of gama
-
+            #self.p_encodes = tf.add(self.p_encodes, tf.multiply(self.p_encodes, self.dec))
             
+            self.p_encodes = self.dec
+
+
+
+
             
             """
             The core of RC model, get the question-aware passage encoding with either BIDAF or MLSTM
             """
-            match_layer = AttentionFlowMatchLayer(hp.hidden_units)
             
-            self.match_p_encodes, _ = match_layer.match(self.q_encodes, self.p_encodes,
-                                                        self.q_length, self.p_length)
+            match_layer = AttentionFlowMatchLayer(hp.hidden_units)
+
+            
+            self.match_p_encodes, _ = match_layer.match(self.p_encodes, self.q_encodes,
+                                                        self.p_length, self.q_length)
+
+            '''
+            #pooling layer
+            self.match_p_encodes = \
+            tf.keras.layers.MaxPool1D(pool_size=4, strides=None, padding='valid')\
+                                    (self.match_p_encodes)
+
+
+            shape_1 = tf.shape(self.match_p_encodes)
+            self.match_p_encodes = tf.reshape(self.match_p_encodes, [-1, hp.p_maxlen, hp.hidden_units])
+
+            shape_2 = tf.shape(self.match_p_encodes)
+
+            self.match_res_shape = (shape_1, shape_2)
+            '''
+            #normalization
+            self.match_p_encodes = tf.layers.batch_normalization(self.match_p_encodes)
 
             if hp.use_dropout:
                 self.match_p_encodes = tf.nn.dropout(self.match_p_encodes, self.dropout_keep_prob)
-
 
             
             """
@@ -222,10 +238,11 @@ class Graph():
             """
             with tf.variable_scope('fusion'):
                 self.fuse_p_encodes, _ = rnn('bi-lstm', self.match_p_encodes, self.p_length,
-                                             hp.hidden_units, layer_num=1)
+                                             hp.hidden_units, layer_num=1, concat = False)
 
                 if hp.use_dropout:
                     self.fuse_p_encodes = tf.nn.dropout(self.fuse_p_encodes, self.dropout_keep_prob)
+
 
             
 
@@ -235,10 +252,12 @@ class Graph():
             Note that we concat the fuse_p_encodes for the passages in the same document.
             And since the encodes of queries in the same document is same, we select the first one.
             """
+            
+            '''
             with tf.variable_scope('same_question_concat'):
                 batch_size = tf.shape(self.start_label)[0]
                 concat_passage_encodes = tf.reshape(
-                    self.fuse_p_encodes,
+                    self.p_encodes,
                     [batch_size, -1, 2 * hp.hidden_units]
                 )
                 no_dup_question_encodes = tf.reshape(
@@ -246,11 +265,17 @@ class Graph():
                     [batch_size, -1, 2 * hp.hidden_units]
                 )
 
-            decoder = PointerNetDecoder(hp.hidden_units)
-            self.start_probs, self.end_probs = decoder.decode(concat_passage_encodes,
-                                                              no_dup_question_encodes)
+            '''
 
-            
+            #shape review 2
+            #self.reviewer_2 = (tf.shape(concat_passage_encodes), tf.shape(no_dup_question_encodes))
+
+            decoder = PointerNetDecoder(hp.hidden_units)
+            self.start_probs, self.end_probs = decoder.decode(self.match_p_encodes,
+                                                              self.q_encodes)
+
+            #shape review 3
+            #self.reviewer_3 = (tf.shape(self.start_probs), tf.shape(self.start_probs))
 
             '''
             with tf.name_scope("gama_predict"):
@@ -365,15 +390,17 @@ if __name__ == '__main__':
                 sess.run(g.train_op)
                 #acc, los = sess.run(g.acc), sess.run(g.mean_loss)
                 los = sess.run(g.loss)
-                assert los > float('-inf'), print("loss: ",los)
-                #print(acc, los)
-                rec.write('{}\t{}\n'.format('Loss:', los))
-                #print(sess.run(g.preds), sess.run(g.y))
-                #print(sess.run(tf.equal(tf.convert_to_tensor(g.y, tf.int32), g.preds)))
-                
+                if not los > float('-inf'):
+                  print("loss: ",los)
+                  gs = sess.run(g.global_step) 
+                  sv.saver.save(sess, hp.logdir + '/model_epoch_%02d_gs_%d' % (epoch, gs))
+                  break
+   
+                rec.write('epochs {}\tstep {}\t{}\t{}\n'.format(epoch, step, 'Loss:', los))
+
             gs = sess.run(g.global_step)   
             sv.saver.save(sess, hp.logdir + '/model_epoch_%02d_gs_%d' % (epoch, gs))
     
-    print("Done")    
+    print("Done")
     
 
