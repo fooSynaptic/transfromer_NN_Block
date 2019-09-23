@@ -29,9 +29,8 @@ class rc_Hyperparams:
     #n_class = 2
     dropout_keep_prob = 0.55
     reg_lambda = 0.1
-
+    Passage_fuse = 'bi-rnn' # bi-rnn or Pooling
     use_dropout = True
-
     weight_decay = 0.1
 
 
