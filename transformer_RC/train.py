@@ -8,9 +8,7 @@ from data_load import get_batch_data, load_vocabs
 from modules import *
 import os, codecs
 from tqdm import tqdm
-
-#import keras
-
+from models import vanilla_transformer
 
 # custom wrapper
 from layers.basic_rnn import rnn
@@ -27,9 +25,7 @@ class Graph():
             if is_training:
                 self.q, self.p, self.q_length, self.p_length, \
                 self.start_label, self.end_label, self.num_batch = get_batch_data() 
-
                 self.dropout_keep_prob = hp.dropout_keep_prob
-
 
             else: # inference
                 self.q = tf.placeholder(tf.int32, [None, hp.q_maxlen])
@@ -38,159 +34,35 @@ class Graph():
                 self.p_length = tf.placeholder(tf.int32, [None])
                 self.start_label = tf.placeholder(tf.int32, [None])
                 self.end_label = tf.placeholder(tf.int32, [None])
-                
 
             self.dropout_keep_prob = hp.dropout_keep_prob
             self.l2_loss = tf.constant(0.0)
-            # define decoder inputs
-            #for sentence relationship learning task we want to encoder sent1 to e1, then decoder(e1 + sent2)
-            #to get a more sementic relationship across corpus
-
-            # we want enhance the feature of query 
-            # so the feature of query is boostted by add feature input into decoder
-            # the decoder input should be the same shape of paragraph
-            pad_dim = hp.p_maxlen - hp.q_maxlen
-            pad_ = tf.zeros([tf.shape(self.q)[0], pad_dim], dtype = self.q.dtype)
-            self.decoder_inputs = tf.concat((pad_, tf.ones_like(self.q[:, :1])*2, self.q[:, :-1]), -1) # 2:<S>
-
+            # define decoder input
+            self.decoder_inputs = tf.concat((tf.ones_like(self.p[:, :1])*2, self.p[:, :-1]), -1) # 2:<S>
 
             # Load vocabulary    
             word2idx, idx2word = load_vocabs()
 
-            
-            # concated Encoder features
-            features, concated_features = [self.q, self.p], []
-            vocabSizes = [hp.q_maxlen, hp.p_maxlen]
+            # initialize transformer
+            transformer = vanilla_transformer(hp, self.is_training)
+            ### encode
+            self.q_encodes, self.p_encodes = transformer.encode(self.q, len(word2idx)), \
+                transformer.encode(self.q, len(word2idx))
 
-            for i in range(len(features)):
-              tmp_feature = features[i]
-              with tf.variable_scope("encoder_{}".format(i)):
-                  ## Embedding
-                  enc = embedding(tmp_feature, 
-                                        vocab_size=len(word2idx), 
-                                        num_units=hp.hidden_units, 
-                                        scale=True,
-                                        scope="enc_embed")
-                  
-                  ## Positional Encoding
-                  if hp.sinusoid:
-                      enc += positional_encoding(tmp_feature,
-                                        num_units=hp.hidden_units, 
-                                        zero_pad=False, 
-                                        scale=False,
-                                        scope="enc_pe")
-                  else:
-                      enc += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(tmp_feature)[1]), 0), [tf.shape(tmp_feature)[0], 1]),
-                                        vocab_size=vocabSizes[i], 
-                                        num_units=hp.hidden_units, 
-                                        zero_pad=False, 
-                                        scale=False,
-                                        scope="enc_pe")
 
-                  ## Dropout
-                  enc = tf.layers.dropout(enc, 
-                                              rate=hp.dropout_rate, 
-                                              training=tf.convert_to_tensor(is_training))
-
-                  #store
-                  concated_features.append(enc)
-                  del enc
-            self.q_encodes, self.p_encodes = concated_features
-
-            #concated features
+            #concated features to attend p with q
             # first pad q_encodes to the length of p_encodes
-            '''
             pad_dim = hp.p_maxlen - hp.q_maxlen
             pad_ = tf.zeros([tf.shape(self.q_encodes)[0], pad_dim, hp.hidden_units], dtype = self.q_encodes.dtype)
-
-            self.p_fixed_q_encodes = tf.concat([pad_, self.q_encodes], 1)
-
-            self.p_q_encodes = tf.divide(tf.add(self.p_fixed_q_encodes, self.p_encodes), len(concated_features))
+            self.padded_q_encodes = tf.concat([self.q_encodes, pad_,], 1)
             #normalization
-            self.p_q_encodes = normalize(self.p_q_encodes)
-
-
-            ## Blocks
-            # enhance concated feature with raw query input
-            for i in range(hp.num_blocks):
-                with tf.variable_scope("num_blocks_{}".format(i)):
-                    ### Multihead Attention
-                    self.p_q_encodes = multihead_attention(queries=self.p_q_encodes, 
-                                                    keys=self.p_q_encodes, 
-                                                    num_units=hp.hidden_units, 
-                                                    num_heads=hp.num_heads, 
-                                                    dropout_rate=hp.dropout_rate,
-                                                    is_training=is_training,
-                                                    causality=False)
-                    
-                    ### Feed Forward
-                    self.p_q_encodes = feedforward(self.p_q_encodes, num_units=[4*hp.hidden_units, hp.hidden_units])
-        
-            #for sentence relationship learning task we want to encoder sent1 to e1, then decoder(e1 + sent2)
-            #to get a more sementic relationship across corpus
+            self.padded_q_encodes = normalize(self.padded_q_encodes)
 
             # Decoder
-            with tf.variable_scope("decoder"):
-                ## Embedding
-                self.dec = embedding(self.decoder_inputs, 
-                                      vocab_size=len(word2idx), 
-                                      num_units=hp.hidden_units,
-                                      scale=True, 
-                                      scope="dec_embed")
-                
-                ## Positional Encoding
-                if hp.sinusoid:
-                    self.dec += positional_encoding(self.decoder_inputs,
-                                      vocab_size=hp.maxlen, 
-                                      num_units=hp.hidden_units, 
-                                      zero_pad=False, 
-                                      scale=False,
-                                      scope="dec_pe")
-                else:
-                    self.dec += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(self.decoder_inputs)[1]), 0), [tf.shape(self.decoder_inputs)[0], 1]),
-                                      vocab_size=hp.p_maxlen, 
-                                      num_units=hp.hidden_units, 
-                                      zero_pad=False, 
-                                      scale=False,
-                                      scope="dec_pe")
-                
-                ## Dropout
-                self.dec = tf.layers.dropout(self.dec, 
-                                            rate=hp.dropout_rate, 
-                                            training=tf.convert_to_tensor(is_training))
-                
-                ## Blocks
-                for i in range(hp.num_blocks):
-                    with tf.variable_scope("num_blocks_{}".format(i)):
-                        ## Multihead Attention ( self-attention)
-                        self.dec = multihead_attention(queries=self.dec, 
-                                                        keys=self.dec, 
-                                                        num_units=hp.hidden_units, 
-                                                        num_heads=hp.num_heads, 
-                                                        dropout_rate=hp.dropout_rate,
-                                                        is_training=is_training,
-                                                        causality=True, 
-                                                        scope="self_attention")
-                        
-
-                        ## Multihead Attention ( vanilla attention)
-                        self.dec = multihead_attention(queries=self.dec, 
-                                                        keys=self.p_q_encodes, 
-                                                        num_units=hp.hidden_units, 
-                                                        num_heads=hp.num_heads,
-                                                        dropout_rate=hp.dropout_rate,
-                                                        is_training=is_training, 
-                                                        causality=False,
-                                                        scope="vanilla_attention")
-                        
-
-                        ## Feed Forward
-                        self.dec = feedforward(self.dec, num_units=[4*hp.hidden_units, hp.hidden_units])
-            '''
+            self.dec = transformer.decode(self.decoder_inputs, self.padded_q_encodes, len(word2idx), hp.p_maxlen)
 
             # fix paragraph tensor with self.dec
-            #self.p_encodes = tf.add(self.p_encodes, tf.multiply(self.p_encodes, self.dec))
-            #self.p_encodes = self.dec
+            self.p_encodes = self.dec
 
             """
             The core of RC model, get the question-aware passage encoding with either BIDAF or MLSTM
@@ -198,7 +70,6 @@ class Graph():
             match_layer = AttentionFlowMatchLayer(hp.hidden_units)
             self.match_p_encodes, _ = match_layer.match(self.p_encodes, self.q_encodes,
                                                         self.p_length, self.q_length)
-
 
             # pooling or bi-rnn to fuision passage encodes
             if hp.Passage_fuse == 'Pooling':
