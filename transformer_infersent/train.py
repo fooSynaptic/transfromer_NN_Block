@@ -9,6 +9,9 @@ from modules import *
 import os, codecs
 from tqdm import tqdm
 
+os.sys.path.append('../Models')
+from models import vanilla_transformer
+
 
 class Graph():
     def __init__(self, is_training=True):
@@ -35,139 +38,28 @@ class Graph():
             # Load vocabulary    
             word2idx, idx2word = load_vocabs()
 
-            
-            # concated Encoder features
-            features, cocated_features = [self.x1, self.x2], []
 
-            for i in range(len(features)):
-              tmp_feature = features[i]
-              with tf.variable_scope("encoder_{}".format(i)):
-                  ## Embedding
-                  self.enc = embedding(tmp_feature, 
-                                        vocab_size=len(word2idx), 
-                                        num_units=hp.hidden_units, 
-                                        scale=True,
-                                        scope="enc_embed")
-                  
-                  ## Positional Encoding
-                  if hp.sinusoid:
-                      self.enc += positional_encoding(tmp_feature,
-                                        num_units=hp.hidden_units, 
-                                        zero_pad=False, 
-                                        scale=False,
-                                        scope="enc_pe")
-                  else:
-                      self.enc += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(tmp_feature)[1]), 0), [tf.shape(tmp_feature)[0], 1]),
-                                        vocab_size=hp.maxlen, 
-                                        num_units=hp.hidden_units, 
-                                        zero_pad=False, 
-                                        scale=False,
-                                        scope="enc_pe")
+            # initialize transformer
+            transformer = vanilla_transformer(hp, self.is_training)
 
-                  ## Dropout
-                  self.enc = tf.layers.dropout(self.enc, 
-                                              rate=hp.dropout_rate, 
-                                              training=tf.convert_to_tensor(is_training))
-
-                  #store
-                  cocated_features.append(self.enc)
+            #encode
+            self.encode1, self.encode2 = transformer.encode(self.x1, len(word2idx)), \
+                transformer.encode(self.x2, len(word2idx))
 
             #concated
-            self.enc = cocated_features[0]
-            for t in cocated_features[1:]: self.enc = tf.add(self.enc, t)
-            self.enc = tf.divide(self.enc, len(cocated_features))
+            self.enc = tf.divide(tf.add(self.encode1, encode2), 2)
+            self.enc = normalize(self.enc)
 
-
-
-            ## Blocks
-            for i in range(hp.num_blocks):
-                with tf.variable_scope("num_blocks_{}".format(i)):
-                    ### Multihead Attention
-                    self.enc = multihead_attention(queries=self.enc, 
-                                                    keys=self.enc, 
-                                                    num_units=hp.hidden_units, 
-                                                    num_heads=hp.num_heads, 
-                                                    dropout_rate=hp.dropout_rate,
-                                                    is_training=is_training,
-                                                    causality=False)
-                    
-                    ### Feed Forward
-                    self.enc = feedforward(self.enc, num_units=[4*hp.hidden_units, hp.hidden_units])
-        
-        
             #for sentence relationship learning task we want to encoder sent1 to e1, then decoder(e1 + sent2)
             #to get a more sementic relationship across corpus
 
-
-
-
             # Decoder
-            with tf.variable_scope("decoder"):
-                ## Embedding
-                self.dec = embedding(self.decoder_inputs, 
-                                      vocab_size=len(word2idx), 
-                                      num_units=hp.hidden_units,
-                                      scale=True, 
-                                      scope="dec_embed")
-                
-                ## Positional Encoding
-                if hp.sinusoid:
-                    self.dec += positional_encoding(self.decoder_inputs,
-                                      vocab_size=hp.maxlen, 
-                                      num_units=hp.hidden_units, 
-                                      zero_pad=False, 
-                                      scale=False,
-                                      scope="dec_pe")
-                else:
-                    self.dec += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(self.decoder_inputs)[1]), 0), [tf.shape(self.decoder_inputs)[0], 1]),
-                                      vocab_size=hp.maxlen, 
-                                      num_units=hp.hidden_units, 
-                                      zero_pad=False, 
-                                      scale=False,
-                                      scope="dec_pe")
-                
-                ## Dropout
-                self.dec = tf.layers.dropout(self.dec, 
-                                            rate=hp.dropout_rate, 
-                                            training=tf.convert_to_tensor(is_training))
-                
-                ## Blocks
-                for i in range(hp.num_blocks):
-                    with tf.variable_scope("num_blocks_{}".format(i)):
-                        ## Multihead Attention ( self-attention)
-                        self.dec = multihead_attention(queries=self.dec, 
-                                                        keys=self.dec, 
-                                                        num_units=hp.hidden_units, 
-                                                        num_heads=hp.num_heads, 
-                                                        dropout_rate=hp.dropout_rate,
-                                                        is_training=is_training,
-                                                        causality=True, 
-                                                        scope="self_attention")
-                        
+            self.dec = transformer.decode(self.decoder_inputs, self.enc, len(word2idx), hp.p_maxlen)
 
-                        ## Multihead Attention ( vanilla attention)
-                        self.dec = multihead_attention(queries=self.dec, 
-                                                        keys=self.enc, 
-                                                        num_units=hp.hidden_units, 
-                                                        num_heads=hp.num_heads,
-                                                        dropout_rate=hp.dropout_rate,
-                                                        is_training=is_training, 
-                                                        causality=False,
-                                                        scope="vanilla_attention")
-                        
-                        ## Feed Forward
-                        self.dec = feedforward(self.dec, num_units=[4*hp.hidden_units, hp.hidden_units])
-            
 
-            # Final linear projection
             self.logits = tf.add(self.enc, tf.multiply(self.enc, self.dec))
             #self.logits = self.enc
 
-            '''
-            self.logits = tf.reduce_sum(self.logits, axis=2) #4, 500
-            self.logits = tf.layers.batch_normalization(self.logits, True)
-            self.logits = tf.contrib.layers.dropout(self.logits, hp.dropout_keep_prob)
-            '''
             #self.logits = tf.layers.dense(self.logits, 64, activation = 'tanh')
             self.logits = tf.layers.flatten(self.logits)
             #self.logits = tf.reshape(self.logits, [64, -1])

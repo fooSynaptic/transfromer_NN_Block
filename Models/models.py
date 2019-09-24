@@ -1,6 +1,7 @@
 # encoding = utf-8
 # /usr/bin/python3
 import tensorflow as tf
+from modules import *
 
 
 class vanilla_transformer():

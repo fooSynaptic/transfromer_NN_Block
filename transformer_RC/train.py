@@ -16,6 +16,9 @@ from layers.match_layer import MatchLSTMLayer
 from layers.match_layer import AttentionFlowMatchLayer
 from layers.pointer_net import PointerNetDecoder
 
+os.sys.path.append('../Models')
+from models import vanilla_transformer
+
 
 
 class Graph():
@@ -49,7 +52,6 @@ class Graph():
             self.q_encodes, self.p_encodes = transformer.encode(self.q, len(word2idx)), \
                 transformer.encode(self.q, len(word2idx))
 
-
             #concated features to attend p with q
             # first pad q_encodes to the length of p_encodes
             pad_dim = hp.p_maxlen - hp.q_maxlen
@@ -65,7 +67,7 @@ class Graph():
             self.p_encodes = self.dec
 
             """
-            The core of RC model, get the question-aware passage encoding with either BIDAF or MLSTM
+            The core of RC model, get the question-aware passage encoding
             """
             match_layer = AttentionFlowMatchLayer(hp.hidden_units)
             self.match_p_encodes, _ = match_layer.match(self.p_encodes, self.q_encodes,
