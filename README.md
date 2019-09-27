@@ -40,17 +40,28 @@ conventional sentence tokenize method - **/B/E/S/M** (represent the word begin/e
 
 # ***Third - the transformer feature extraction block***
 - you may find the code in `./transformer_text_Classfication`, codes about preprocessing and training as well as evaluation locate in this path. And the wrappers usage are similar to encoder-decoder architecture.
+- The chinese corpus was downloaded from [THUCTC(THU Chinese Text Classification)](http://thuctc.thunlp.org/), and we show better macro avg f1-score with over 0.05.
+- ***Our model is very raw and shallow(only 8 multi-head attention projection and final linear projection) and without pre-trained embedding, you can explore performance with our code.***
 
 # result of chinese sentences classfication(char-level)
+` tagging = {'时尚':0, '教育':1, '时政':2, '体育':3, '游戏':4, '家居':5, '科技':6, '房产':7, '财经':8, '娱乐':9} `
 ```
               precision    recall  f1-score   support
 
-           0       0.99      1.00      0.99       992
-           1       1.00      0.99      0.99       980
+           0       0.91      0.95      0.93      1000
+           1       0.96      0.77      0.85      1000
+           2       0.92      0.93      0.92      1000
+           3       0.95      0.93      0.94      1000
+           4       0.86      0.91      0.88      1000
+           5       0.83      0.47      0.60      1000
+           6       0.86      0.85      0.86      1000
+           7       0.64      0.87      0.74      1000
+           8       0.79      0.91      0.85      1000
+           9       0.88      0.91      0.89      1000
 
-   micro avg       0.99      0.99      0.99      1972
-   macro avg       0.99      0.99      0.99      1972
-weighted avg       0.99      0.99      0.99      1972
+    accuracy                           0.85     10000
+   macro avg       0.86      0.85      0.85     10000
+weighted avg       0.86      0.85      0.85     10000
 
 Done
 ```
