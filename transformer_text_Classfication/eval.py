@@ -10,7 +10,7 @@ import numpy as np
 from hyperparams import feature_Block_Hyperparams as hp
 from data_load import load_vocabs, load_train_data, load_test_data, create_data
 from train import Graph
-from nltk.translate.bleu_score import corpus_bleu
+#from nltk.translate.bleu_score import corpus_bleu
 import argparse
 from sklearn.metrics import classification_report
 
@@ -47,8 +47,8 @@ def eval(task_name):
                 print("Iterator:", len(X), hp.batch_size)
 
                 predict_label = []
-                for i in range(len(X) // hp.batch_size):                
-                    print('Step:\t', i)     
+                for i in range(len(X) // hp.batch_size + 1):                
+                    print('Step:\t', i, '/', len(X) // hp.batch_size)     
                     ### Get mini-batches
                     x = X[i*hp.batch_size: (i+1)*hp.batch_size]
                     sentences = Texts[i*hp.batch_size: (i+1)*hp.batch_size]
@@ -56,6 +56,7 @@ def eval(task_name):
                      
                     
                     preds = sess.run(g.preds, {g.x:x})
+                    preds = [int(x) for x in preds]
                     predict_label.extend(preds)
 
                     ### Write to file

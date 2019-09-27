@@ -9,9 +9,6 @@ from modules import *
 import os, codecs
 from tqdm import tqdm
 
-os.sys.path.append('../Models')
-from models import vanilla_transformer
-
 
 class Graph():
     def __init__(self, is_training=True):
@@ -22,7 +19,7 @@ class Graph():
                 self.y = tf.one_hot(self.label, depth = hp.n_class)
             else: # inference
                 self.x = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
-                #self.label = tf.placeholder(tf.int32, shape = (None, hp.n_class))
+                self.label = tf.placeholder(tf.int32, shape = (None, hp.n_class))
                 #self.y = tf.placeholder(tf.int32, shape = (None, hp.n_class))
                 #self.y = tf.placeholder(tf.int32, shape=(None, hp.maxlen))
 
@@ -32,12 +29,53 @@ class Graph():
             # Load vocabulary    
             word2idx, idx2word = load_vocabs()
 
-            # initialize transformer
-            transformer = vanilla_transformer(hp, self.is_training)
-            self.enc = transformer.encode(self.x, len(word2idx))
             
-            # Decoder
-            self.dec = transformer.decode(self.decoder_inputs, self.enc, len(word2idx), hp.maxlen)
+            # Encoder
+            with tf.variable_scope("encoder"):
+                ## Embedding
+                self.enc = embedding(self.x, 
+                                      vocab_size=len(word2idx), 
+                                      num_units=hp.hidden_units, 
+                                      scale=True,
+                                      scope="enc_embed")
+               
+                ## Positional Encoding
+                if hp.sinusoid:
+                    self.enc += positional_encoding(self.x,
+                                      num_units=hp.hidden_units, 
+                                      zero_pad=False, 
+                                      scale=False,
+                                      scope="enc_pe")
+                else:
+                    self.enc += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(self.x)[1]), 0), [tf.shape(self.x)[0], 1]),
+                                      vocab_size=hp.maxlen, 
+                                      num_units=hp.hidden_units, 
+                                      zero_pad=False, 
+                                      scale=False,
+                                      scope="enc_pe")
+                    
+                 
+                ## Dropout
+                self.enc = tf.layers.dropout(self.enc, 
+                                            rate=hp.dropout_rate, 
+                                            training=tf.convert_to_tensor(is_training))
+                
+                ## Blocks
+                for i in range(hp.num_blocks):
+                    with tf.variable_scope("num_blocks_{}".format(i)):
+                        ### Multihead Attention
+                        self.enc = multihead_attention(queries=self.enc, 
+                                                        keys=self.enc, 
+                                                        num_units=hp.hidden_units, 
+                                                        num_heads=hp.num_heads, 
+                                                        dropout_rate=hp.dropout_rate,
+                                                        is_training=is_training,
+                                                        causality=False)
+                        
+                        ### Feed Forward
+                        self.enc = feedforward(self.enc, num_units=[4*hp.hidden_units, hp.hidden_units])
+            
+            
 
             # Final linear projection
             #print(self.enc.shape) #4, 500, 512
@@ -83,11 +121,13 @@ if __name__ == '__main__':
                              logdir=hp.logdir,
                              save_model_secs=0)
     with sv.managed_session() as sess:
+      with open("acc_loss_rec.log", 'w') as f:
         for epoch in range(1, hp.num_epochs+1): 
             if sv.should_stop(): break
             for step in tqdm(range(g.num_batch), total=g.num_batch, ncols=70, leave=False, unit='b'):
                 sess.run(g.train_op)
-                
+                acc, loss = sess.run([g.acc, g.mean_loss])
+                f.write('{}\t{}\n'.format(acc, loss))
             gs = sess.run(g.global_step)   
             sv.saver.save(sess, hp.logdir + '/model_epoch_%02d_gs_%d' % (epoch, gs))
     

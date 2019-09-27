@@ -36,7 +36,9 @@ def normalize(inputs,
         
     return outputs
 
-def embedding(inputs, 
+
+def embedding(inputs,
+              pretrained_embedding = None,
               vocab_size, 
               num_units, 
               zero_pad=True, 
@@ -56,57 +58,28 @@ def embedding(inputs,
       scope: Optional scope for `variable_scope`.
       reuse: Boolean, whether to reuse the weights of a previous layer
         by the same name.
-
-    Returns:
-      A `Tensor` with one more rank than inputs's. The last dimensionality
-        should be `num_units`.
-        
-    For example,
-    
-    ```
-    import tensorflow as tf
-    
-    inputs = tf.to_int32(tf.reshape(tf.range(2*3), (2, 3)))
-    outputs = embedding(inputs, 6, 2, zero_pad=True)
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        print sess.run(outputs)
-    >>
-    [[[ 0.          0.        ]
-      [ 0.09754146  0.67385566]
-      [ 0.37864095 -0.35689294]]
-
-     [[-1.01329422 -1.09939694]
-      [ 0.7521342   0.38203377]
-      [-0.04973143 -0.06210355]]]
-    ```
-    
-    ```
-    import tensorflow as tf
-    
-    inputs = tf.to_int32(tf.reshape(tf.range(2*3), (2, 3)))
-    outputs = embedding(inputs, 6, 2, zero_pad=False)
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        print sess.run(outputs)
-    >>
-    [[[-0.19172323 -0.39159766]
-      [-0.43212751 -0.66207761]
-      [ 1.03452027 -0.26704335]]
-
-     [[-0.11634696 -0.35983452]
-      [ 0.50208133  0.53509563]
-      [ 1.22204471 -0.96587461]]]    
-    ```    
     '''
     with tf.variable_scope(scope, reuse=reuse):
-        lookup_table = tf.get_variable('lookup_table',
-                                       dtype=tf.float32,
-                                       shape=[vocab_size, num_units],
-                                       initializer=tf.contrib.layers.xavier_initializer())
-        if zero_pad:
-            lookup_table = tf.concat((tf.zeros(shape=[1, num_units]),
-                                      lookup_table[1:, :]), 0)
+        if pretrained_embedding is not None:
+            if not tf.shape(pretrained_embedding)[1] == num_units:
+                pre_emb = pretrained_embedding
+                fusion_emb = tf.layers.dense(pre_emb, num_units, activation='tanh')
+                fusion_emb = normalize(funsion_emb)
+
+                lookup_table = fusion_emb
+            else:
+                lookup_table = pretrained_embedding
+        else:
+            lookup_table = tf.get_variable('lookup_table',
+                                        dtype=tf.float32,
+                                        shape=[vocab_size, num_units],
+                                        initializer=tf.contrib.layers.xavier_initializer())
+            if zero_pad:
+                lookup_table = tf.concat((tf.zeros(shape=[1, num_units]),
+                                        lookup_table[1:, :]), 0)
+
+
+
         outputs = tf.nn.embedding_lookup(lookup_table, inputs)
         
         if scale:
@@ -188,7 +161,7 @@ def multihead_attention(queries,
         by the same name.
         
     Returns
-      A 3d tensor with shape of (N, T_q, C)  
+      A 3d tensor
     '''
     with tf.variable_scope(scope, reuse=reuse):
         # Set the fall back option for num_units

@@ -25,11 +25,13 @@ def make_vocab(fpath, fname):
     ''' 
     texts = []
     for path in fpath:
-        text = [x.strip().split()[0] for x in codecs.open(path, 'r', 'utf-8').readlines()]
+        text = [x.strip().split()[1] for x in codecs.open(path, 'r', 'utf-8').readlines()]
         texts.extend(text)
 
     corpus = ''.join(texts)
     corpus = re.sub("[\s\p']", "", corpus)
+    corpus = re.sub('[0-9]+', 'N', corpus)
+    corpus = re.sub('[a-zA-Z]+', 'α', corpus)
     #words = jieba.cut(corpus)
     words = list(corpus)
 
