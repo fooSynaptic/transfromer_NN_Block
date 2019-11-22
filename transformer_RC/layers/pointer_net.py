@@ -37,17 +37,24 @@ def custom_dynamic_rnn(cell, inputs, inputs_len, initial_state=None):
     Returns:
         outputs and state
     """
-    batch_size = tf.shape(inputs)[0]
-    max_time = tf.shape(inputs)[1]
+    batch_size, max_time = tf.shape(inputs)[0], tf.shape(inputs)[1]
+
 
     inputs_ta = tf.TensorArray(dtype=tf.float32, size=max_time)
     inputs_ta = inputs_ta.unstack(tf.transpose(inputs, [1, 0, 2]))
+
+    # record cells
     emit_ta = tf.TensorArray(dtype=tf.float32, dynamic_size=True, size=0)
+
+    # iter timesteps
     t0 = tf.constant(0, dtype=tf.int32)
     if initial_state is not None:
+
+        # initial state
         s0 = initial_state
     else:
         s0 = cell.zero_state(batch_size, dtype=tf.float32)
+    #
     f0 = tf.zeros([batch_size], dtype=tf.bool)
 
     def loop_fn(t, prev_s, emit_ta, finished):
@@ -55,6 +62,11 @@ def custom_dynamic_rnn(cell, inputs, inputs_len, initial_state=None):
         the loop function of rnn
         """
         cur_x = inputs_ta.read(t)
+        # use pre cell state and current input to predict the scores and current state
+        ### dimension of scores: (batchsize, hiddensize) equal to cur_x
+        ### the score is the logit of each position at each sample
+        
+        ### current state is a tuple (hidden state, cell state)
         scores, cur_state = cell(cur_x, prev_s)
 
         # copy through
@@ -68,6 +80,7 @@ def custom_dynamic_rnn(cell, inputs, inputs_len, initial_state=None):
         else:
             cur_state = tf.where(finished, prev_s, cur_state)
 
+        ### store the logit scores of each step
         emit_ta = emit_ta.write(t, scores)
         finished = tf.greater_equal(t + 1, inputs_len)
         return [t + 1, cur_state, emit_ta, finished]
@@ -93,6 +106,7 @@ def attend_pooling(pooling_vectors, ref_vector, hidden_size, scope=None):
         scope: score name
     Returns:
         the pooled vector
+        pooling to vector with one dimension
     """
     with tf.variable_scope(scope or 'attend_pooling'):
         U = tf.tanh(tc.layers.fully_connected(pooling_vectors, num_outputs=hidden_size,
@@ -170,6 +184,8 @@ class PointerNetDecoder(object):
             with tf.variable_scope('bw'):
                 bw_cell = PointerNetLSTMCell(self.hidden_size, passage_vectors)
                 bw_outputs, _ = custom_dynamic_rnn(bw_cell, fake_inputs, sequence_len, init_state)
+            
+            # the start prob and end prob of each position
             start_prob = (fw_outputs[0:, 0, 0:] + bw_outputs[0:, 1, 0:]) / 2
             end_prob = (fw_outputs[0:, 1, 0:] + bw_outputs[0:, 0, 0:]) / 2
             return start_prob, end_prob
