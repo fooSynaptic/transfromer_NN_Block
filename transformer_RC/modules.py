@@ -179,6 +179,7 @@ def multihead_attention(queries,
         V_ = tf.concat(tf.split(V, num_heads, axis=2), axis=0) # (h*N, T_k, C/h) 
 
         # Multiplication
+        # (h*N, T_q, C/h)  @ (h*N, C/h, T_k) 
         outputs = tf.matmul(Q_, tf.transpose(K_, [0, 2, 1])) # (h*N, T_q, T_k)
         
         # Scale
