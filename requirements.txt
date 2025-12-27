@@ -1,4 +1,26 @@
-nltk>=3.2.4
-numpy>=1.13.0
-regex>=2017.6.7
-tensorflow==1.12.0
+# Transformer NLP Building Blocks - Dependencies
+# 
+# This project requires Python 3.6+ and TensorFlow 1.x
+# Install with: pip install -r requirements.txt
+
+# Core dependencies
+tensorflow==1.12.0          # Deep learning framework (TensorFlow 1.x required)
+numpy>=1.13.0              # Numerical computing
+
+# NLP utilities
+nltk>=3.2.4                # Natural Language Toolkit
+jieba>=0.39                # Chinese word segmentation (for preprocessing)
+
+# Text processing
+regex>=2017.6.7            # Regular expressions with Unicode support
+beautifulsoup4>=4.6.0      # HTML/XML parsing (for WIT3 dataset)
+
+# Training utilities
+tqdm>=4.19.0               # Progress bars
+
+# Evaluation
+scikit-learn>=0.19.0       # Metrics and evaluation utilities
+
+# Optional: Visualization
+# matplotlib>=2.1.0        # Plotting (for training curves)
+# tensorboard>=1.12.0      # TensorFlow visualization (included with tf)
