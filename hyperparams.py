@@ -7,11 +7,29 @@ This module contains configuration classes for:
 - Sequence-to-Sequence (NMT)
 - Text Classification
 - Natural Language Inference (InferSent)
+
+Example:
+    >>> from hyperparams import RCHyperparams, Seq2SeqHyperparams
+    >>> rc_config = RCHyperparams()
+    >>> nmt_config = Seq2SeqHyperparams()
 """
 
 
 class BaseHyperparams:
-    """Base hyperparameters shared across all tasks."""
+    """
+    Base hyperparameters shared across all tasks.
+    
+    Attributes:
+        batch_size: Training batch size
+        learning_rate: Initial learning rate
+        num_epochs: Number of training epochs
+        hidden_units: Model hidden dimension
+        num_blocks: Number of transformer blocks
+        num_heads: Number of attention heads
+        dropout_rate: Dropout probability
+        min_cnt: Minimum word frequency for vocabulary
+        sinusoid: Use sinusoidal positional encoding (vs learned)
+    """
     
     # Training
     batch_size = 32
@@ -32,7 +50,18 @@ class BaseHyperparams:
 
 
 class RCHyperparams(BaseHyperparams):
-    """Hyperparameters for Reading Comprehension task."""
+    """
+    Hyperparameters for Reading Comprehension task.
+    
+    Based on BiDAF + Transformer architecture for extractive QA.
+    
+    Attributes:
+        question_maxlen: Maximum question length
+        passage_maxlen: Maximum passage length
+        answer_maxlen: Maximum answer length
+        dropout_keep_prob: Keep probability for dropout
+        reg_lambda: L2 regularization coefficient
+    """
     
     # Data paths
     trainset = './datasets/train_round_0.csv'
@@ -60,7 +89,12 @@ class RCHyperparams(BaseHyperparams):
 
 
 class Seq2SeqHyperparams(BaseHyperparams):
-    """Hyperparameters for Sequence-to-Sequence (NMT) task."""
+    """
+    Hyperparameters for Sequence-to-Sequence (NMT) task.
+    
+    Used for English-to-Chinese neural machine translation.
+    Dataset: WIT3 (Web Inventory of Transcribed and Translated Talks)
+    """
     
     # Data paths
     source_train = './datasets/zh-en/train.tags.zh-en.en'
@@ -77,7 +111,12 @@ class Seq2SeqHyperparams(BaseHyperparams):
 
 
 class TextClassificationHyperparams(BaseHyperparams):
-    """Hyperparameters for Text Classification task."""
+    """
+    Hyperparameters for Text Classification task.
+    
+    Used for Chinese text classification (THU-CTC dataset).
+    Categories: 时尚, 教育, 时政, 体育, 游戏, 家居, 科技, 房产, 财经, 娱乐
+    """
     
     # Data paths
     trainset = './datasets/trainset.txt'
@@ -93,7 +132,15 @@ class TextClassificationHyperparams(BaseHyperparams):
 
 
 class InferSentHyperparams(BaseHyperparams):
-    """Hyperparameters for Natural Language Inference task."""
+    """
+    Hyperparameters for Natural Language Inference task.
+    
+    Based on Stanford SNLI dataset.
+    Labels: entailment, contradiction, neutral
+    
+    Attributes:
+        relations: Mapping from label names to class indices
+    """
     
     # Data paths
     trainset = './opensrc_dta/train.csv'

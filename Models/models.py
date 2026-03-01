@@ -7,16 +7,38 @@ This module provides a vanilla Transformer implementation following the paper
 
 Classes:
     VanillaTransformer: Standard encoder-decoder Transformer architecture.
+
+Example:
+    >>> from models import VanillaTransformer
+    >>> from hyperparams import Seq2SeqHyperparams
+    >>> hp = Seq2SeqHyperparams()
+    >>> model = VanillaTransformer(hp, is_training=True)
+    >>> enc_output = model.encode(inputs, vocab_size=10000)
 """
 
 import tensorflow as tf
-from modules import (
-    embedding,
-    positional_encoding,
-    multihead_attention,
-    feedforward,
-    normalize
-)
+
+# Import modules from sibling directories
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    from modules import (
+        embedding,
+        positional_encoding,
+        multihead_attention,
+        feedforward,
+        normalize
+    )
+except ImportError:
+    from en_zh_NMT.modules import (
+        embedding,
+        positional_encoding,
+        multihead_attention,
+        feedforward,
+        normalize
+    )
 
 
 class VanillaTransformer:
@@ -30,19 +52,26 @@ class VanillaTransformer:
     - Positional encoding (sinusoidal or learned)
     
     Args:
-        hyperparams: Configuration object containing model hyperparameters.
-        is_training: Boolean indicating training mode (affects dropout).
+        hyperparams: Configuration object containing model hyperparameters
+        is_training: Boolean indicating training mode (affects dropout)
     
     Attributes:
-        hp: Hyperparameters configuration.
-        is_training: Training mode flag.
+        hp: Hyperparameters configuration
+        is_training: Training mode flag
     """
     
-    def __init__(self, hyperparams, is_training):
+    def __init__(self, hyperparams, is_training: bool):
+        """
+        Initialize the Transformer model.
+        
+        Args:
+            hyperparams: Hyperparameter configuration object
+            is_training: Whether in training mode
+        """
         self.hp = hyperparams
         self.is_training = is_training
 
-    def encode(self, inputs, vocab_size):
+    def encode(self, inputs: tf.Tensor, vocab_size: int) -> tf.Tensor:
         """
         Encode input sequence using Transformer encoder.
         
@@ -53,15 +82,15 @@ class VanillaTransformer:
         4. N stacked encoder blocks (self-attention + feed-forward)
         
         Args:
-            inputs: Input tensor of shape [batch_size, seq_length].
-            vocab_size: Size of the vocabulary.
+            inputs: Input tensor of shape [batch_size, seq_length]
+            vocab_size: Size of the vocabulary
             
         Returns:
-            Encoded representations of shape [batch_size, seq_length, hidden_units].
+            Encoded representations of shape [batch_size, seq_length, hidden_units]
         """
         with tf.variable_scope("encoder", reuse=tf.AUTO_REUSE):
             # Token embedding
-            enc = embedding(
+            encoded = embedding(
                 inputs,
                 vocab_size=vocab_size,
                 num_units=self.hp.hidden_units,
@@ -71,7 +100,7 @@ class VanillaTransformer:
             
             # Positional encoding
             if self.hp.sinusoid:
-                enc += positional_encoding(
+                encoded += positional_encoding(
                     inputs,
                     num_units=self.hp.hidden_units,
                     zero_pad=False,
@@ -80,11 +109,12 @@ class VanillaTransformer:
                 )
             else:
                 # Learned positional embeddings
+                seq_length = tf.shape(inputs)[1]
                 position_ids = tf.tile(
-                    tf.expand_dims(tf.range(tf.shape(inputs)[1]), 0),
+                    tf.expand_dims(tf.range(seq_length), 0),
                     [tf.shape(inputs)[0], 1]
                 )
-                enc += embedding(
+                encoded += embedding(
                     position_ids,
                     vocab_size=vocab_size,
                     num_units=self.hp.hidden_units,
@@ -94,8 +124,8 @@ class VanillaTransformer:
                 )
 
             # Dropout
-            enc = tf.layers.dropout(
-                enc,
+            encoded = tf.layers.dropout(
+                encoded,
                 rate=self.hp.dropout_rate,
                 training=tf.convert_to_tensor(self.is_training)
             )
@@ -104,9 +134,9 @@ class VanillaTransformer:
             for block_idx in range(self.hp.num_blocks):
                 with tf.variable_scope(f"encoder_block_{block_idx}", reuse=tf.AUTO_REUSE):
                     # Multi-head self-attention
-                    enc = multihead_attention(
-                        queries=enc,
-                        keys=enc,
+                    encoded = multihead_attention(
+                        queries=encoded,
+                        keys=encoded,
                         num_units=self.hp.hidden_units,
                         num_heads=self.hp.num_heads,
                         dropout_rate=self.hp.dropout_rate,
@@ -115,14 +145,15 @@ class VanillaTransformer:
                     )
                     
                     # Position-wise feed-forward network
-                    enc = feedforward(
-                        enc,
+                    encoded = feedforward(
+                        encoded,
                         num_units=[4 * self.hp.hidden_units, self.hp.hidden_units]
                     )
         
-        return enc
+        return encoded
 
-    def decode(self, decoder_inputs, encoder_outputs, vocab_size, max_length):
+    def decode(self, decoder_inputs: tf.Tensor, encoder_outputs: tf.Tensor, 
+               vocab_size: int, max_length: int) -> tf.Tensor:
         """
         Decode using Transformer decoder with cross-attention.
         
@@ -136,17 +167,17 @@ class VanillaTransformer:
            - Feed-forward network
         
         Args:
-            decoder_inputs: Decoder input tensor of shape [batch_size, seq_length].
-            encoder_outputs: Encoder output tensor for cross-attention.
-            vocab_size: Size of the vocabulary.
-            max_length: Maximum sequence length for positional encoding.
+            decoder_inputs: Decoder input tensor [batch_size, seq_length]
+            encoder_outputs: Encoder output tensor for cross-attention
+            vocab_size: Size of the vocabulary
+            max_length: Maximum sequence length for positional encoding
             
         Returns:
-            Decoded representations of shape [batch_size, seq_length, hidden_units].
+            Decoded representations [batch_size, seq_length, hidden_units]
         """
         with tf.variable_scope("decoder", reuse=tf.AUTO_REUSE):
             # Token embedding
-            dec = embedding(
+            decoded = embedding(
                 decoder_inputs,
                 vocab_size=vocab_size,
                 num_units=self.hp.hidden_units,
@@ -156,7 +187,7 @@ class VanillaTransformer:
             
             # Positional encoding
             if self.hp.sinusoid:
-                dec += positional_encoding(
+                decoded += positional_encoding(
                     decoder_inputs,
                     vocab_size=max_length,
                     num_units=self.hp.hidden_units,
@@ -166,11 +197,12 @@ class VanillaTransformer:
                 )
             else:
                 # Learned positional embeddings
+                seq_length = tf.shape(decoder_inputs)[1]
                 position_ids = tf.tile(
-                    tf.expand_dims(tf.range(tf.shape(decoder_inputs)[1]), 0),
+                    tf.expand_dims(tf.range(seq_length), 0),
                     [tf.shape(decoder_inputs)[0], 1]
                 )
-                dec += embedding(
+                decoded += embedding(
                     position_ids,
                     vocab_size=max_length,
                     num_units=self.hp.hidden_units,
@@ -180,8 +212,8 @@ class VanillaTransformer:
                 )
             
             # Dropout
-            dec = tf.layers.dropout(
-                dec,
+            decoded = tf.layers.dropout(
+                decoded,
                 rate=self.hp.dropout_rate,
                 training=tf.convert_to_tensor(self.is_training)
             )
@@ -190,9 +222,9 @@ class VanillaTransformer:
             for block_idx in range(self.hp.num_blocks):
                 with tf.variable_scope(f"decoder_block_{block_idx}"):
                     # Masked self-attention (causal)
-                    dec = multihead_attention(
-                        queries=dec,
-                        keys=dec,
+                    decoded = multihead_attention(
+                        queries=decoded,
+                        keys=decoded,
                         num_units=self.hp.hidden_units,
                         num_heads=self.hp.num_heads,
                         dropout_rate=self.hp.dropout_rate,
@@ -202,8 +234,8 @@ class VanillaTransformer:
                     )
 
                     # Cross-attention to encoder outputs
-                    dec = multihead_attention(
-                        queries=dec,
+                    decoded = multihead_attention(
+                        queries=decoded,
                         keys=encoder_outputs,
                         num_units=self.hp.hidden_units,
                         num_heads=self.hp.num_heads,
@@ -214,12 +246,12 @@ class VanillaTransformer:
                     )
 
                     # Position-wise feed-forward network
-                    dec = feedforward(
-                        dec,
+                    decoded = feedforward(
+                        decoded,
                         num_units=[4 * self.hp.hidden_units, self.hp.hidden_units]
                     )
         
-        return dec
+        return decoded
 
 
 # Backward compatibility alias
