@@ -6,7 +6,7 @@
 
 A collection of Transformer-based implementations for various NLP tasks, following the original paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
 
-## 🎯 Implemented Tasks
+## <img src=".github/icons/target.svg" width="16" height="16" alt="icon"> Implemented Tasks
 
 | Task | Description | Directory |
 |------|-------------|-----------|
@@ -16,7 +16,7 @@ A collection of Transformer-based implementations for various NLP tasks, followi
 | **Natural Language Inference** | Sentence entailment with Stanford SNLI | [`transformer_infersent/`](./transformer_infersent/) |
 | **Reading Comprehension** | Extractive QA with Pointer Network | [`transformer_RC/`](./transformer_RC/) |
 
-## 🚀 Quick Start
+## <img src=".github/icons/rocket.svg" width="16" height="16" alt="icon"> Quick Start
 
 ### Installation
 
@@ -48,7 +48,7 @@ transfromer_NN_Block/
 
 ---
 
-## 📋 Task Details
+## <img src=".github/icons/clipboard.svg" width="16" height="16" alt="icon"> Task Details
 
 ### 1. Chinese Word Segmentation (Encoder-Decoder)
 
@@ -239,7 +239,7 @@ The core Transformer implementation follows the original paper with:
 
 ---
 
-## 📚 References
+## <img src=".github/icons/book.svg" width="16" height="16" alt="icon"> References
 
 - [Attention Is All You Need](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017)
 - [Kyubyong's Transformer Implementation](https://github.com/Kyubyong/transformer)
@@ -248,7 +248,7 @@ The core Transformer implementation follows the original paper with:
 
 ---
 
-## 📝 License
+## <img src=".github/icons/note.svg" width="16" height="16" alt="icon"> License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -260,4 +260,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-**⭐ If you find this project helpful, please consider giving it a star!**
+**<img src=".github/icons/star.svg" width="16" height="16" alt="icon"> If you find this project helpful, please consider giving it a star!**
